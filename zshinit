@@ -11,4 +11,4 @@ sed -i '7i neofetch' .zshrc && \
 cp -rfv $HOME/.*zsh* /etc/skel/ && \
 touch .hushlogin && \
 touch /etc/skel/.hushlogin && \
-zsh
+reboot
