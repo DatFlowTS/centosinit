@@ -4,6 +4,7 @@ yum install -y gcc-c++ make vim dnf epel-release dnf-plugins-core && \
 dnf -y update && dnf -y upgrade && \
 curl -sL https://rpm.nodesource.com/setup_14.x | sudo -E bash - && \
 dnf -y install git nodejs neofetch zsh && \
+dnf -y --enablerepo=PowerTools install fuse-sshfs && \
 npm i -g typescript pm2 && \
 sed -i 's/bash/zsh/g' /etc/default/useradd && \
 usermod --shell /bin/zsh root && \
