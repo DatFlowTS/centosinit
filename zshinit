@@ -1,7 +1,12 @@
 #!/bin/zsh
 
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
+wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh && \
+sed -i 's/RUNZSH=\${RUNZSH:-yes}/RUNZSH=\${RUNZSH:-no}/g' install.sh && \
+sed -i 's/RUNZSH=yes/RUNZSH=no/g' install.sh && \
+sh install.sh && \
+rm -rfv install.sh && \
 sed -i 's/robbyrussell/agnoster/g' $HOME/.zshrc && \
 sed -i 's/\/root/\$HOME/g' $HOME/.zshrc && \
 sed -i '7i neofetch' .zshrc && \
-cp -rfv $HOME/.*zsh* /etc/skel/
+cp -rfv $HOME/.*zsh* /etc/skel/ && \
+zsh
