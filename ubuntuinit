@@ -6,5 +6,6 @@ curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash - && \
 apt -y install git nodejs neofetch zsh && \
 npm i -g typescript pm2 && \
 sed -i 's/bash/zsh/g' /etc/adduser.conf && \
+sed -i 's/bash/zsh/g' /etc/default/useradd && \
 usermod --shell /bin/zsh root && \
 sh -c "$(curl -fsSL https://raw.github.com/datflowts/centosinit/master/zshinit)"
