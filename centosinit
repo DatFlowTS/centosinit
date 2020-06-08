@@ -1,0 +1,9 @@
+#!/bin/bash
+
+yum install -y gcc-c++ make vim dnf epel-release dnf-plugins-core && \
+curl -sL https://rpm.nodesource.com/setup_14.x | sudo -E bash - && \
+dnf -y install git nodejs neofetch zsh && \
+npm i -g typescript pm2 && \
+sed -i 's/bash/zsh/g' /etc/default/useradd && \
+usermod --shell /bin/zsh root && \
+sh -c "$(curl -fsSL https://raw.github.com/datflowts/centosinit/master/zshinit)"
