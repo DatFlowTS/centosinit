@@ -1,8 +1,8 @@
-#CentOS
+# CentOS
 sh -c "$(curl -fsSL https://raw.github.com/datflowts/centosinit/master/centosinit)"
 
-#Ubuntu
+# Ubuntu
 sh -c "$(curl -fsSL https://raw.github.com/datflowts/centosinit/master/ubuntuinit)"
 
-#Fedora
+# Fedora
 sh -c "$(curl -fsSL https://raw.github.com/datflowts/centosinit/master/fedorainit)"
