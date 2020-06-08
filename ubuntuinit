@@ -7,7 +7,9 @@ apt -y install git nodejs neofetch zsh && \
 npm i -g typescript pm2 && \
 sed -i 's/bash/zsh/g' /etc/adduser.conf && \
 sed -i 's/bash/zsh/g' /etc/default/useradd && \
+sed -i 's/\# GROUP=100/GROUP=100/g' /etc/default/useradd && \
 sed -i 's/# HOME=\/home/HOME=\/home/g' /etc/default/useradd && \
 sed -i 's/\# SKEL=\/etc\/skel/SKEL=\/etc\/skel/g' /etc/default/useradd && \
+sed -i 's/\# CREATE_MAIL_SPOOL=yes/CREATE_MAIL_SPOOL=yes/g' /etc/default/useradd && \
 usermod --shell /bin/zsh root && \
 sh -c "$(curl -fsSL https://raw.github.com/datflowts/centosinit/master/zshinit)"
