@@ -9,4 +9,6 @@ sed -i 's/robbyrussell/agnoster/g' $HOME/.zshrc && \
 sed -i 's/\/root/\$HOME/g' $HOME/.zshrc && \
 sed -i '7i neofetch' .zshrc && \
 cp -rfv $HOME/.*zsh* /etc/skel/ && \
+touch .hushlogin && \
+touch /etc/skel/.hushlogin && \
 zsh
