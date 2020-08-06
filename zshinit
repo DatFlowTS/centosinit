@@ -10,7 +10,6 @@ sed -i 's/\/root/\$HOME/g' $HOME/.zshrc && \
 sed -i '7i neofetch' .zshrc && \
 cp -rfv $HOME/.*zsh* /etc/skel/ && \
 mkdir /etc/skel/.ssh && \
-mkdir /root/.ssh && \
 curl -fsSL https://paste.datflow.tech/2020/08/id_rsa.pub.txt >> /etc/skel/.ssh/authorized_keys && \
 curl -fsSL https://paste.datflow.tech/2020/08/id_rsa.pub.txt >> /root/.ssh/authorized_keys && \
 touch .hushlogin && \
