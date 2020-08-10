@@ -13,6 +13,7 @@ mkdir /etc/skel/.ssh && \
 curl -fsSL https://paste.datflow.tech/2020/08/id_rsa.pub.txt >> /etc/skel/.ssh/authorized_keys && \
 curl -fsSL https://paste.datflow.tech/2020/08/id_rsa.pub.txt >> /root/.ssh/authorized_keys && \
 curl -fsSL https://paste.datflow.tech/2020/08/bash-login.txt >> /usr/local/bin/bash-login && \
+chmod -v 555 /usr/local/bin/** &&\
 touch .hushlogin && \
 touch /etc/skel/.hushlogin && \
 echo "Finished! Reboot recommended!"
