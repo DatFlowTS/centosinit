@@ -12,8 +12,13 @@ cp -rfv $HOME/.*zsh* /etc/skel/ && \
 mkdir /etc/skel/.ssh && \
 curl -fsSL https://paste.datflow.tech/2020/08/id_rsa.pub.txt >> /etc/skel/.ssh/authorized_keys && \
 curl -fsSL https://paste.datflow.tech/2020/08/id_rsa.pub.txt >> /root/.ssh/authorized_keys && \
-curl -fsSL https://paste.datflow.tech/2020/08/bash-login.txt >> /usr/local/bin/bash-login && \
+cd /usr/local/bin && \
+wget https://share.datflow.tech/2020/08/bash-login && \
+cd ~ && \
 chmod -v 555 /usr/local/bin/** &&\
 touch .hushlogin && \
 touch /etc/skel/.hushlogin && \
+echo "-----------------------------" && \
+echo "-----------------------------" && \
+echo "-----------------------------" && \
 echo "Finished! Reboot recommended!"
