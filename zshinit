@@ -18,6 +18,12 @@ cd ~ && \
 chmod -v 555 /usr/local/bin/** &&\
 touch .hushlogin && \
 touch /etc/skel/.hushlogin && \
+useradd datflow && \
+usermod -aG wheel datflow && \
+sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u datflow --hp /home/datflow && \
+pm2 startup && \
+echo "Set Password for DatFlow:" && \
+passwd datflow && \
 echo "-----------------------------" && \
 echo "-----------------------------" && \
 echo "-----------------------------" && \
