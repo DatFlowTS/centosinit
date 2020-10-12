@@ -10,6 +10,4 @@ dnf -y --enablerepo=PowerTools install fuse-sshfs && \
 npm i -g typescript pm2 && \
 sed -i 's/bash/zsh/g' /etc/default/useradd && \
 usermod --shell /bin/zsh root && \
-sh -c "$(curl -fsSL https://raw.github.com/datflowts/centosinit/master/zshinit)" && \
-useradd datflow && \
-usermod -aG wheel datflow
+sh -c "$(curl -fsSL https://raw.github.com/datflowts/centosinit/master/zshinit)"
