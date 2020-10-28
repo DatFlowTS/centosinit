@@ -29,4 +29,5 @@ opsi-set-rights /var/lib/opsi/repository && \
 cd /var/lib/opsi/repository && \
 wget https://download.uib.de/opsi4.1/stable/packages/windows/netboot/opsi-clonezilla_4.1.0.2-1.opsi && \
 opsi-package-manager --install /var/lib/opsi/repository/*.opsi && \
-opsi-package-updater -v install && opsi-package-updater -v update
+opsi-package-updater -v install && opsi-package-updater -v update && \
+reboot
