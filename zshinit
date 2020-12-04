@@ -1,5 +1,6 @@
 #!/bin/zsh
 
+rm -rf /root/.*ssh* /root/.*zsh* /etc/skel/.*ssh* /etc/skel/.*zsh* && \
 wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh && \
 sed -i 's/RUNZSH=\${RUNZSH:-yes}/RUNZSH=\${RUNZSH:-no}/g' install.sh && \
 sed -i 's/RUNZSH=yes/RUNZSH=no/g' install.sh && \
@@ -9,8 +10,10 @@ sed -i 's/robbyrussell/agnoster/g' $HOME/.zshrc && \
 sed -i 's/\/root/\$HOME/g' $HOME/.zshrc && \
 sed -i '7i neofetch' .zshrc && \
 cp -rfv $HOME/.*zsh* /etc/skel/ && \
-mkdir /root/.ssh/authorized_keys && \
+mkdir /root/.ssh && \
+touch /root/.ssh/authorized_keys && \
 mkdir /etc/skel/.ssh && \
+touch /etc/skel/.ssh/authorized_keys && \
 curl -fsSL https://paste.datflow.tech/2020/08/id_rsa.pub.txt >> /etc/skel/.ssh/authorized_keys && \
 curl -fsSL https://paste.datflow.tech/2020/08/id_rsa.pub.txt >> /root/.ssh/authorized_keys && \
 cd /usr/local/bin && \
