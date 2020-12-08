@@ -14,10 +14,10 @@ mkdir /root/.ssh && \
 touch /root/.ssh/authorized_keys && \
 mkdir /etc/skel/.ssh && \
 touch /etc/skel/.ssh/authorized_keys && \
-curl -fsSL https://paste.datflow.tech/2020/08/id_rsa.pub.txt >> /etc/skel/.ssh/authorized_keys && \
-curl -fsSL https://paste.datflow.tech/2020/08/id_rsa.pub.txt >> /root/.ssh/authorized_keys && \
+curl -fsSL https://paste.datflow.tech/share/2020/08/id_rsa.pub.txt >> /etc/skel/.ssh/authorized_keys && \
+curl -fsSL https://paste.datflow.tech/share/2020/08/id_rsa.pub.txt >> /root/.ssh/authorized_keys && \
 cd /usr/local/bin && \
-wget https://share.datflow.tech/2020/08/bash-login && \
+wget https://share.datflow.tech/share/2020/08/bash-login && \
 cd ~ && \
 chmod -v 555 /usr/local/bin/** &&\
 touch .hushlogin && \
