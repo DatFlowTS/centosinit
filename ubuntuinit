@@ -12,4 +12,5 @@ sed -i 's/# HOME=\/home/HOME=\/home/g' /etc/default/useradd && \
 sed -i 's/\# SKEL=\/etc\/skel/SKEL=\/etc\/skel/g' /etc/default/useradd && \
 sed -i 's/\# CREATE_MAIL_SPOOL=yes/CREATE_MAIL_SPOOL=yes/g' /etc/default/useradd && \
 usermod --shell /bin/zsh root && \
+cd ~ && \
 sh -c "$(curl -fsSL https://raw.github.com/datflowts/centosinit/master/zshinit-r)"
