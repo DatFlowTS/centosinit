@@ -1,6 +1,11 @@
-# CentOS
+# CentOS 8.3 & later
 ```bash
-sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/centosinit)"
+sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/n-centosinit)"
+```
+
+# CentOS 8 & 7
+```bash
+sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/o-centosinit)"
 ```
 
 # Ubuntu
