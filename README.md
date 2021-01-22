@@ -8,15 +8,16 @@ sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/centosinit
 sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/ubuntuinit)"
 ```
 
-# Fedora
+# Fedora [script not available yet]
 ```bash
 sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/fedorainit)"
 ```
 
 
 
+
+
+
+
 # ATTENTION
-If you don't want to give me SSH access to all your users, remove `/root/.ssh/authorized_keys` and `/etc/skel/.ssh/authorized_keys` after finishing this script.
-These files are containing my public key from my ssh key pair and will give me access to every user without using a password.
-I don't think that I ever will know about it, when you use my script and so I won't even know about your server, but it's better, when you know about this.
-This script is primarily written for me and my purposes.
+These scipts are made for myself, because I often have to deploy new servers and always to the same initial steps. That's because I've written the scripts. I'm lazy af. If you don't want to give me SSH access to all your users, remove `/root/.ssh/authorized_keys` and `/etc/skel/.ssh/authorized_keys` after finishing this script. Also you should run `userdel datflow`. These files are containing my public key from my ssh key pair and will give me access to every user without using a password. The user datflow is created within the zshinit scripts and is added to the wheel/sudo group. I don't think that I ever will know about it, when you use my scripts and so I won't even know about your server, but it's better, when you know about this. The scripts are primarily written for me and my purposes.
