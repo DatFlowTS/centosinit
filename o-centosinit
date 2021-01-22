@@ -1,4 +1,3 @@
- 
 #!/bin/bash
 
 yum install -y curl wget gcc-c++ make vim dnf epel-release dnf-plugins-core cockpit && \
