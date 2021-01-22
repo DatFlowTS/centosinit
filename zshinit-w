@@ -14,20 +14,19 @@ mkdir /root/.ssh && \
 touch /root/.ssh/authorized_keys && \
 mkdir /etc/skel/.ssh && \
 touch /etc/skel/.ssh/authorized_keys && \
-curl -fsSL https://paste.datflow.tech/share/2020/08/id_rsa.pub.txt >> /etc/skel/.ssh/authorized_keys && \
-curl -fsSL https://paste.datflow.tech/share/2020/08/id_rsa.pub.txt >> /root/.ssh/authorized_keys && \
+curl -fsSL https://share.datflow.tech/LNXScrpts/.ssh/authorized_keys >> /etc/skel/.ssh/authorized_keys && \
+curl -fsSL https://share.datflow.tech/LNXScrpts/.ssh/authorized_keys >> /root/.ssh/authorized_keys && \
 cd /usr/local/bin && \
-wget https://share.datflow.tech/share/2020/08/bash-login && \
+wget https://share.datflow.tech/LNXScrpts/bash-login && \
+wget https://share.datflow.tech/LNXScrpts/update && \
 cd ~ && \
 chmod -v 555 /usr/local/bin/** &&\
 touch .hushlogin && \
 touch /etc/skel/.hushlogin && \
 useradd datflow && \
 usermod -aG wheel datflow && \
-sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u datflow --hp /home/datflow && \
+env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u datflow --hp /home/datflow && \
 pm2 startup && \
-echo "Set Password for DatFlow:" && \
-passwd datflow && \
 echo "-----------------------------" && \
 echo "-----------------------------" && \
 echo "-----------------------------" && \
