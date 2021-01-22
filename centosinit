@@ -1,6 +1,6 @@
 #!/bin/bash
 
-yum install -y gcc-c++ make vim dnf epel-release dnf-plugins-core cockpit && \
+yum install -y curl wget gcc-c++ make vim dnf epel-release dnf-plugins-core cockpit && \
 systemctl enable --now cockpit.socket && systemctl start cockpit.socket && \
 dnf -y update && dnf -y upgrade && \
 curl -sL https://rpm.nodesource.com/setup_14.x | sudo -E bash - && \
@@ -10,4 +10,4 @@ dnf -y --enablerepo=PowerTools install fuse-sshfs && \
 npm i -g typescript pm2 && \
 sed -i 's/bash/zsh/g' /etc/default/useradd && \
 usermod --shell /bin/zsh root && \
-sh -c "$(curl -fsSL https://raw.github.com/datflowts/centosinit/master/zshinit)"
+sh -c "$(curl -fsSL https://raw.github.com/datflowts/centosinit/master/zshinit-w)"
