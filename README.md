@@ -20,8 +20,7 @@ sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/fedorainit
 
 
 
-# MacOS
-## yeah, i know.
+# MacOS [## yeah, i know.]
 ```
 /bin/bash -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/macosinit)"
 ```
