@@ -27,8 +27,6 @@ useradd datflow && \
 usermod -aG wheel datflow && \
 env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u datflow --hp /home/datflow && \
 pm2 startup && \
-systemctl enable pm2-root && \
-systemctl enable pm2-datflow && \
 echo "-----------------------------" && \
 echo "-----------------------------" && \
 echo "-----------------------------" && \
