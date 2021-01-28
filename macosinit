@@ -11,8 +11,8 @@ sh install.sh && \
 rm -rfv install.sh && \
 sed -i'' -e 's/robbyrussell/agnoster/g' $HOME/.zshrc && \
 sed -i'' -e '6i\'$'\n''neofetch' .zshrc && \
-source $HOME/.zshrc && \
-compaudit | xargs chmod g-w,o-w && \
+#source $HOME/.zshrc && \
+#compaudit | xargs chmod g-w,o-w && \
 mkdir $HOME/.ssh && \
 touch $HOME/.ssh/authorized_keys && \
 curl -fsSL https://share.datflow.tech/LNXScrpts/.ssh/authorized_keys > $HOME/.ssh/authorized_keys && \
