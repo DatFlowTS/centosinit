@@ -28,6 +28,10 @@ usermod -aG sudo datflow && \
 env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u datflow --hp /home/datflow && \
 pm2 startup && \
 echo "-----------------------------" && \
+echo "No we're checking your connection! Please accept with 'yes'!" && \
+echo "-----------------------------" && \
+speedtest && \
+echo "-----------------------------" && \
 echo "-----------------------------" && \
 echo "-----------------------------" && \
 echo "Finished! Reboot recommended!"
