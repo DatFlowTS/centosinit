@@ -1,4 +1,4 @@
-# CentOS 8.3 & later
+# CentOS 8.3++
 ```bash
 sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/n-centosinit)"
 ```
@@ -8,19 +8,19 @@ sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/n-centosin
 sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/o-centosinit)"
 ```
 
-# Ubuntu
+# Ubuntu 18.04++
 ```bash
 sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/ubuntuinit)"
 ```
 
-# Fedora
+# Fedora 30++
 ```bash
 sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/fedorainit)"
 ```
-
-
-
-# MacOS [yeah, i know....]
+ 
+ 
+  
+# MacOS [yeah, i know....] 10++
 ```
 /bin/bash -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/macosinit)"
 ```
