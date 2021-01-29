@@ -1,8 +1,10 @@
 #!/bin/bash
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)" && \
+brew tap teamookla/speedtest && \
 brew update && \
 brew install wget vim git neofetch && \
+brew install speedtest --force && \
 touch ~/.zshrc && \
 wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh && \
 sed -i'' -e 's/RUNZSH=\${RUNZSH:-yes}/RUNZSH=\${RUNZSH:-no}/g' install.sh && \
@@ -25,6 +27,10 @@ npm i -g typescript pm2 && \
 mkdir $HOME/Library/LaunchAgents && \
 touch $HOME/Library/LaunchAgents/pm2.$USER.plist && \
 sudo env PATH=$PATH:$HOME/.nvm/versions/node/v15.7.0/bin $HOME/.nvm/versions/node/v15.7.0/lib/node_modules/pm2/bin/pm2 startup launchd -u $USER --hp $HOME && \
+echo "-----------------------------" && \
+echo "No we're checking your connection! Please accept with 'yes'!" && \
+echo "-----------------------------" && \
+speedtest && \
 echo "-----------------------------" && \
 echo "-----------------------------" && \
 echo "-----------------------------" && \
