@@ -7,7 +7,7 @@ sudo mv bintray-ookla-rhel.repo /etc/yum.repos.d/ && \
 dnf -y update && dnf -y upgrade && \
 curl -sL https://rpm.nodesource.com/setup_14.x | sudo -E bash - && \
 dnf -y install git nodejs neofetch zsh python2 python36 speedtest && \
-sudo alternatives --set python /usr/bin/python3 && \
+alternatives --set python /usr/bin/python3 && \
 dnf -y --enablerepo=powertools install fuse-sshfs && \
 npm i -g typescript pm2 && \
 sed -i 's/bash/zsh/g' /etc/default/useradd && \
