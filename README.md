@@ -13,7 +13,7 @@ sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/o-centosin
 sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/ubuntuinit)"
 ```
 
-# Fedora [script not available yet]
+# Fedora
 ```bash
 sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/fedorainit)"
 ```
