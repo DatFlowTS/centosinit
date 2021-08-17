@@ -5,7 +5,7 @@ apt install -y curl wget gcc make vim sshfs gnupg1 apt-transport-https dirmngr &
 export INSTALL_KEY=379CE192D401AB61 && \
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys $INSTALL_KEY && \
 curl -s https://install.speedtest.net/app/cli/install.deb.sh | sudo bash && \
-curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash - && \
+curl -sL https://deb.nodesource.com/setup_current.x | sudo -E bash - && \
 apt update && \
 apt -y install git nodejs neofetch zsh speedtest && \
 npm i -g typescript pm2 && \
