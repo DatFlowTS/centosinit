@@ -2,9 +2,10 @@
 
 yum install -y curl wget gcc-c++ make vim dnf epel-release dnf-plugins-core cockpit && \
 systemctl enable --now cockpit.socket && systemctl start cockpit.socket && \
+curl -s https://install.speedtest.net/app/cli/install.rpm.sh | sudo bash && \
 dnf -y update && dnf -y upgrade && \
 curl -sL https://rpm.nodesource.com/setup_14.x | sudo -E bash - && \
-dnf -y install git nodejs neofetch zsh python2 python36 && \
+dnf -y install git nodejs neofetch zsh python2 python36 speedtest && \
 #sudo alternatives --set python /usr/bin/python3 && \
 dnf -y --enablerepo=PowerTools install fuse-sshfs && \
 npm i -g typescript pm2 && \
