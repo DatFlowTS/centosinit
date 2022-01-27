@@ -19,7 +19,7 @@ chmod -v 555 /usr/local/bin/** &&\
 touch .hushlogin && \
 touch /etc/skel/.hushlogin && \
 #useradd datflow && \
-u#sermod -aG wheel datflow && \
+#usermod -aG wheel datflow && \
 #env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u datflow --hp /home/datflow && \
 #pm2 startup && \
 echo "-----------------------------" && \
