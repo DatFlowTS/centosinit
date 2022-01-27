@@ -7,7 +7,7 @@ dnf -y update && dnf -y upgrade && \
 curl -sL https://rpm.nodesource.com/setup_17.x | sudo -E bash - && \
 dnf -y install git nodejs neofetch zsh python2 python36 speedtest && \
 #sudo alternatives --set python /usr/bin/python3 && \
-dnf -y --enablerepo=PowerTools install fuse-sshfs && \
+#dnf -y --enablerepo=PowerTools install fuse-sshfs && \
 npm i -g typescript pm2 && \
 sed -i 's/bash/zsh/g' /etc/default/useradd && \
 usermod --shell /bin/zsh root && \
