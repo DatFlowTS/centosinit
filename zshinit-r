@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-rm -rf /root/.*ssh* /root/.*zsh* /etc/skel/.*ssh* /etc/skel/.*zsh* && \
+rm -rf /root/.*zsh* /etc/skel/.*ssh* /etc/skel/.*zsh* && \
 wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh && \
 sed -i 's/RUNZSH=\${RUNZSH:-yes}/RUNZSH=\${RUNZSH:-no}/g' install.sh && \
 sed -i 's/RUNZSH=yes/RUNZSH=no/g' install.sh && \
@@ -11,21 +11,18 @@ sed -i 's/\/root/\$HOME/g' $HOME/.zshrc && \
 sed -i '7i neofetch' .zshrc && \
 echo "neofetch" >> /etc/bashrc && \
 echo "neofetch" >> $HOME/.bashrc && \
-cp -rfv $HOME/.*zsh* /etc/skel/ && \
-cp -rfv $HOME/.*bash* /etc/skel/ && \
-#mkdir /root/.ssh && \
-#touch /root/.ssh/authorized_keys && \
-#mkdir /etc/skel/.ssh && \
-#touch /etc/skel/.ssh/authorized_keys && \
+cp -afv $HOME/.*zsh* /etc/skel/ && \
+cp -afv $HOME/.*bash* /etc/skel/ && \
+cp -afv $HOME/.*ssh* /etc/skel/ && \
 cd /usr/local/bin && \
-echo "apt update && apt upgrade" >> ./update && \
+echo "apt autoclean && apt update && apt upgrade" >> ./update && \
 cd ~ && \
 chmod -v 555 /usr/local/bin/** &&\
 touch .hushlogin && \
 touch /etc/skel/.hushlogin && \
-#useradd datflow && \
-#usermod -aG sudo datflow && \
-#env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u datflow --hp /home/datflow && \
+useradd datflow && \
+usermod -aG sudo datflow && \
+env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u datflow --hp /home/datflow && \
 pm2 startup && \
 echo "-----------------------------" && \
 echo "No we're checking your connection! Please accept with 'yes'!" && \
