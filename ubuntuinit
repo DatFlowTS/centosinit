@@ -15,8 +15,7 @@ sed -i 's/\# GROUP=100/GROUP=100/g' /etc/default/useradd && \
 sed -i 's/# HOME=\/home/HOME=\/home\/users/g' /etc/default/useradd && \
 sed -i 's/\# SKEL=\/etc\/skel/SKEL=\/etc\/skel/g' /etc/default/useradd && \
 sed -i 's/\# CREATE_MAIL_SPOOL=yes/CREATE_MAIL_SPOOL=yes/g' /etc/default/useradd && \
-sed -i 's/DHOME=\/home/DHOME=\/home\/users/g' /etc/default/useradd && \
-sed -i 's/\# SKEL=\/etc\/skel/SKEL=\/etc\/skel/g' /etc/default/useradd && \
+sed -i 's/\/home/\/home\/users/g' /etc/adduser.conf && \
 usermod --shell /bin/zsh root && \
 cd ~ && \
 sh -c "$(curl -fsSL https://raw.github.com/datflowts/centosinit/master/zshinit-r)"
