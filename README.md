@@ -1,4 +1,4 @@
-# CentOS 8.3++
+# CentOS 8.3++ / Rockylinux 8
 ```bash
 sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/n-centosinit)"
 ```
