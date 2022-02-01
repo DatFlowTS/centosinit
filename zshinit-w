@@ -13,7 +13,7 @@ cp -afv $HOME/.*zsh* /etc/skel/ && \
 cp -afv $HOME/.*ssh* /etc/skel/ && \
 cd /usr/local/bin && \
 echo "#!/bin/zsh" > update && \
-echo "dnf -y update;dnf -y upgrade" >> update && \
+echo "dnf upgrade --refresh -y;dnf -y update;dnf -y upgrade" >> update && \
 cd ~ && \
 chmod -v 555 /usr/local/bin/** &&\
 touch .hushlogin && \
