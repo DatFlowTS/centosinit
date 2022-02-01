@@ -8,7 +8,7 @@ dnf -y install https://pkgs.dyn.su/el8/base/x86_64/raven-release-1.0-2.el8.noarc
 dnf -y config-manager --set-enabled {raven,raven-extras,powertools,epel,extras,plus} && \
 dnf -y update && dnf -y upgrade && \
 curl -sL https://rpm.nodesource.com/setup_17.x | sudo -E bash - && \
-dnf -y install git nodejs neofetch zsh python2 python36 speedtest && \
+dnf -y install git nodejs neofetch zsh python2 python36 && \
 sudo alternatives --set python /usr/bin/python3 && \
 #dnf -y --enablerepo=powertools install fuse-sshfs && \
 npm i -g typescript pm2 && \
