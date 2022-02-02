@@ -10,7 +10,7 @@ chmod 555 speedtest;cp speedtest /usr/local/bin/ && \
 cd ..;rm -r install && \
 dnf -y install https://pkgs.dyn.su/el8/base/x86_64/raven-release-1.0-2.el8.noarch.rpm && \
 dnf -y config-manager --set-enabled {raven,raven-extras,powertools,epel,extras,plus} && \
-dnf -y update --nobest && dnf -y upgrade --nobest && \
+dnf -y upgrade --refresh --nobest && \
 curl -sL https://rpm.nodesource.com/setup_17.x | sudo -E bash - && \
 sudo curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch && \
 dnf -y install git fuse-sshfs nodejs zsh python2 python36 && \
