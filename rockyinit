@@ -1,45 +1,23 @@
 #!/bin/bash
 
-<<<<<<< HEAD
-yum install -y curl wget gcc-c++ make vim dnf epel-release dnf-plugins-core cockpit cockpit-{packagekit,sosreport,storaged,networkmanager,selinux,kdump} 
-dnf install -y https://github.com/45Drives/cockpit-navigator/releases/download/v0.5.8/cockpit-navigator-0.5.8-1.el8.noarch.rpm 
-systemctl enable --now cockpit.socket && systemctl start cockpit.socket 
-mkdir install;cd inistall 
-wget https://install.speedtest.net/app/cli/ookla-speedtest-1.1.1-linux-x86_64.tgz 
-tar -xvf ookla-speedtest-1.1.1-linux-x86_64.tgz 
-chmod 555 speedtest;cp speedtest /usr/local/bin/ 
+yum install -y curl wget gcc-c++ make vim dnf epel-release dnf-plugins-core cockpit cockpit-{packagekit,sosreport,storaged,networkmanager,selinux,kdump}
+dnf install -y https://github.com/45Drives/cockpit-navigator/releases/download/v0.5.8/cockpit-navigator-0.5.8-1.el8.noarch.rpm
+systemctl enable --now cockpit.socket && systemctl start cockpit.socket
+mkdir install;cd install
+wget https://install.speedtest.net/app/cli/ookla-speedtest-1.1.1-linux-x86_64.tgz
+tar -xvf ookla-speedtest-1.1.1-linux-x86_64.tgz
+chmod 555 speedtest;cp speedtest /usr/local/bin/
 cd ..;rm -r install
 dnf -y install https://pkgs.dyn.su/el8/base/x86_64/raven-release-1.0-2.el8.noarch.rpm
 dnf -y config-manager --set-enabled {raven,raven-extras,powertools,epel,extras,plus}
-dnf -y update --nobest && dnf -y upgrade --nobest
-curl -sL https://rpm.nodesource.com/setup_17.x | sudo -E bash - 
+dnf -y upgrade --refresh --nobest
+curl -sL https://rpm.nodesource.com/setup_17.x | sudo -E bash -
 sudo curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch
+chmod 555 /usr/bin/neofetch
 dnf -y install git fuse-sshfs nodejs zsh python2 python36
 sudo alternatives --set python /usr/bin/python3
 npm i -g typescript pm2
 sed -i 's/bash/zsh/g' /etc/default/useradd
 usermod --shell /bin/zsh root
 cd ~
-=======
-yum install -y curl wget gcc-c++ make vim dnf epel-release dnf-plugins-core cockpit cockpit-{packagekit,sosreport,storaged,networkmanager,selinux,kdump} && \
-dnf install -y https://github.com/45Drives/cockpit-navigator/releases/download/v0.5.8/cockpit-navigator-0.5.8-1.el8.noarch.rpm && \
-systemctl enable --now cockpit.socket && systemctl start cockpit.socket && \
-mkdir install;cd install && \
-wget https://install.speedtest.net/app/cli/ookla-speedtest-1.1.1-linux-x86_64.tgz && \
-tar -xvf ookla-speedtest-1.1.1-linux-x86_64.tgz && \
-chmod 555 speedtest;cp speedtest /usr/local/bin/ && \
-cd ..;rm -r install && \
-dnf -y install https://pkgs.dyn.su/el8/base/x86_64/raven-release-1.0-2.el8.noarch.rpm && \
-dnf -y config-manager --set-enabled {raven,raven-extras,powertools,epel,extras,plus} && \
-dnf -y upgrade --refresh --nobest && \
-curl -sL https://rpm.nodesource.com/setup_17.x | sudo -E bash - && \
-sudo curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch && \
-chmod 555 /usr/bin/neofetch && \
-dnf -y install git fuse-sshfs nodejs zsh python2 python36 && \
-sudo alternatives --set python /usr/bin/python3 && \
-npm i -g typescript pm2 && \
-sed -i 's/bash/zsh/g' /etc/default/useradd && \
-usermod --shell /bin/zsh root && \
-cd ~ && \
->>>>>>> 81587b71619403f2a4157b04cb69c842bd47a277
 sh -c "$(curl -fsSL https://raw.github.com/datflowts/centosinit/master/zshinit-w)"
