@@ -1,8 +1,8 @@
 #!/bin/zsh
 
-dnf --enablerepo=epel group
 dnf -y install breeze-gtk-common
-dnf -y groupinstall --nobest --skip-broken "KDE Plasma Workspaces" "base-x"
+dnf -y groupinstall --allowerasing --nobest --skip-broken "KDE Plasma Workspaces" "base-x"
 echo "exec /usr/bin/startkde" >> ~/.xinitrc
 echo "exec /usr/bin/startkde" >> /etc/skel/.xinitrc
 systemctl set-default graphical.target
+dnf -y config-manager --set-disabled raven-extras

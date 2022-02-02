@@ -42,7 +42,7 @@ echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     sh -c "$(curl -fsSL https://raw.github.com/datflowts/centosinit/master/rockykde)"
 fi
-update '--nobest --skip-broken'
+update '--nobest --skip-broken --allowerasing'
 echo "--------------------------------------------------------------"
 echo "--------------------------------------------------------------"
 echo "--------------------------------------------------------------"
