@@ -3,7 +3,7 @@
 yum install -y curl wget gcc-c++ make vim dnf epel-release dnf-plugins-core cockpit cockpit-{packagekit,sosreport,storaged,networkmanager,selinux,kdump} && \
 dnf install -y https://github.com/45Drives/cockpit-navigator/releases/download/v0.5.8/cockpit-navigator-0.5.8-1.el8.noarch.rpm && \
 systemctl enable --now cockpit.socket && systemctl start cockpit.socket && \
-mkdir install;cd inistall && \
+mkdir install;cd install && \
 wget https://install.speedtest.net/app/cli/ookla-speedtest-1.1.1-linux-x86_64.tgz && \
 tar -xvf ookla-speedtest-1.1.1-linux-x86_64.tgz && \
 chmod 555 speedtest;cp speedtest /usr/local/bin/ && \
