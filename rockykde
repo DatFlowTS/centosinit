@@ -5,7 +5,8 @@ dnf -y groupinstall --allowerasing --nobest --skip-broken "KDE Plasma Workspaces
 echo "exec /usr/bin/startkde" >> ~/.xinitrc
 echo "exec /usr/bin/startkde" >> /etc/skel/.xinitrc
 systemctl set-default graphical.target
-dnf -y config-manager --set-disabled raven-extra
+systemctl isolate graphical.target
+dnf -y config-manager --set-disabled raven-extras
 read -p "Enable VNC Access on Port 5901 for datflow?" -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
@@ -17,6 +18,14 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     firewall-cmd --reload
     systemctl daemon-reload
     systemctl enable --now vncserver@:1.service
+    echo '#######################################################'
+    echo '#######################################################'
+    echo '#######################################################'
+    echo
     echo "VNC-Server and Service is enabled for datflow"
     echo "don't forget to set passwd and vncpasswd for that user"
+    echo
+    echo '#######################################################'
+    echo '#######################################################'
+    echo '#######################################################'
 fi
