@@ -26,6 +26,11 @@ echo "" >> update
 echo "# Optionally you can pass an argument for dnf, e.g. 'sudo update --nobest'" >> update
 echo 'dnf -y upgrade --refresh $@;dnf clean all' >> update
 cd ~
+git clone https://github.com/powerline/fonts.git --depth=1
+cd fonts
+./install.sh
+cd ..
+rm -rf fonts
 chmod -v 555 /usr/local/bin/**
 touch .hushlogin
 touch /etc/skel/.hushlogin
