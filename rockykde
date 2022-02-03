@@ -6,3 +6,12 @@ echo "exec /usr/bin/startkde" >> ~/.xinitrc
 echo "exec /usr/bin/startkde" >> /etc/skel/.xinitrc
 systemctl set-default graphical.target
 dnf -y config-manager --set-disabled raven-extras
+dnf -y install tigervnc-server
+cp /lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@:1.service
+read -p "Enable VNC Access on Port 5901 for datflow?" -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    echo ":1=datflow" >> /etc/tigervnc/vncserver.users
+    systemctl daemon-reload
+    systemctl enable --now vncserver@:1.service
+fi
