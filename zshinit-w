@@ -4,6 +4,7 @@ rm -rf $HOME/.*ssh* $HOME/.*zsh* /etc/skel/.*ssh* /etc/skel/.*zsh* >> /dev/null
 wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh >> /dev/null
 sed -i 's/RUNZSH=\${RUNZSH:-yes}/RUNZSH=\${RUNZSH:-no}/g' install.sh
 sed -i 's/RUNZSH=yes/RUNZSH=no/g' install.sh
+sed -i '352,360d' install.sh
 sh install.sh >> /dev/null
 rm -f install.sh
 sed -i 's/robbyrussell/agnoster/g' $HOME/.zshrc
