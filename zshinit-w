@@ -33,6 +33,7 @@ cd fonts
 ./install.sh >> /dev/null
 cd ..
 rm -rf fonts
+cp -afv $HOME/.local /etc/skel/ >> /dev/null
 chmod -v 555 /usr/local/bin/**
 touch .hushlogin
 touch /etc/skel/.hushlogin
