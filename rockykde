@@ -7,7 +7,7 @@ echo "exec /usr/bin/startkde" >> ~/.xinitrc
 echo "exec /usr/bin/startkde" >> /etc/skel/.xinitrc
 systemctl set-default graphical.target
 systemctl isolate graphical.target
-read -p "Enable VNC Access on Port 5901 for datflow?" -n 1 -r
+read -p "Enable VNC Access on Port 5901 for datflow? (Y/N, default N) => " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     dnf -y install tigervnc-server >> /dev/null

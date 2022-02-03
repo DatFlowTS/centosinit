@@ -50,7 +50,7 @@ echo '#############################################################'
 echo '#############################################################'
 echo '#############################################################'
 speedtest
-read -p "Install KDE Plasma Desktop, too? Y/N (default N)" -n 1 -r
+read -p "Install KDE Plasma Desktop, too? (Y/N, default N) => " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     sh -c "$(curl -fsSL https://raw.github.com/datflowts/centosinit/master/rockykde)"
