@@ -1,12 +1,11 @@
 #!/bin/zsh
 
 dnf -y install breeze-gtk-common
-dnf -y groupinstall --allowerasing --nobest --skip-broken "KDE Plasma Workspaces" "base-x"
+dnf -y groupinstall --allowerasing --best --skip-broken "KDE Plasma Workspaces" "base-x"
 echo "exec /usr/bin/startkde" >> ~/.xinitrc
 echo "exec /usr/bin/startkde" >> /etc/skel/.xinitrc
 systemctl set-default graphical.target
 systemctl isolate graphical.target
-dnf -y config-manager --set-disabled raven-extras
 read -p "Enable VNC Access on Port 5901 for datflow?" -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
