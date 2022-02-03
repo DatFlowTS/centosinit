@@ -1,10 +1,10 @@
 #!/bin/zsh
 
-rm -rf $HOME/.*ssh* $HOME/.*zsh* /etc/skel/.*ssh* /etc/skel/.*zsh*
-wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+rm -rf $HOME/.*ssh* $HOME/.*zsh* /etc/skel/.*ssh* /etc/skel/.*zsh* >> /dev/null
+wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh >> /dev/null
 sed -i 's/RUNZSH=\${RUNZSH:-yes}/RUNZSH=\${RUNZSH:-no}/g' install.sh
 sed -i 's/RUNZSH=yes/RUNZSH=no/g' install.sh
-sh install.sh
+sh install.sh >> /dev/null
 rm -f install.sh
 sed -i 's/robbyrussell/agnoster/g' $HOME/.zshrc
 sed -i 's/\/root/\$HOME/g' $HOME/.zshrc
@@ -16,19 +16,20 @@ echo "# some customizations following here" >> $HOME/.zshrc
 echo 'export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH"' >> $HOME/.zshrc
 echo 'neofetch' >> $HOME/.zshrc
 echo "alias clear='clear;neofetch'" >> $HOME/.zshrc
-cp -afv $HOME/.*zsh* /etc/skel/
+cp -afv $HOME/.*zsh* /etc/skel/ >> /dev/null
 mkdir $HOME/.ssh;cd $HOME/.ssh
-curl https://github.com/datflowts.keys | tee -a authorized_keys
-cp -afv $HOME/.*ssh* /etc/skel/
+curl https://github.com/datflowts.keys | tee -a authorized_keys >> /dev/null
+cp -afv $HOME/.*ssh* /etc/skel/ >> /dev/null
 cd /usr/local/bin
 echo "#\!/bin/zsh" > update
 echo "" >> update
 echo "# Optionally you can pass an argument for dnf, e.g. 'sudo update --nobest'" >> update
-echo 'dnf -y upgrade --refresh $@;dnf clean all' >> update
+echo 'dnf -y upgrade --refresh $@ >> /dev/null;dnf clean all >> /dev/null' >> update
+echo 'echo "Finished! Your system is up2date now! Reboot recommended."' >> update
 cd ~
-git clone https://github.com/powerline/fonts.git --depth=1
+git clone https://github.com/powerline/fonts.git --depth=1 >> /dev/null
 cd fonts
-./install.sh
+./install.sh >> /dev/null
 cd ..
 rm -rf fonts
 chmod -v 555 /usr/local/bin/**
@@ -36,19 +37,26 @@ touch .hushlogin
 touch /etc/skel/.hushlogin
 useradd datflow
 usermod -aG wheel datflow
-env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u datflow --hp /home/datflow
-pm2 startup
-echo "--------------------------------------------------------------"
+env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u datflow --hp /home/datflow >> /dev/null
+pm2 startup >> /dev/null
+echo '#############################################################'
+echo '#############################################################'
+echo '#############################################################'
+echo
 echo "No we're checking your connection! Please accept with 'yes'!"
-echo "--------------------------------------------------------------"
+echo
+echo '#############################################################'
+echo '#############################################################'
+echo '#############################################################'
 speedtest
 read -p "Install KDE Plasma Desktop, too? Y/N (default N)" -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     sh -c "$(curl -fsSL https://raw.github.com/datflowts/centosinit/master/rockykde)"
 fi
-update '--best --skip-broken --allowerasing'
-echo "--------------------------------------------------------------"
-echo "--------------------------------------------------------------"
-echo "--------------------------------------------------------------"
+update '--best --skip-broken --allowerasing' >> /dev/null
+echo '#############################################################'
+echo '#############################################################'
+echo '#############################################################'
+echo
 echo "Finished! Reboot recommended!"
