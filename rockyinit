@@ -10,7 +10,7 @@ chmod 555 speedtest;cp speedtest /usr/local/bin/
 cd ..;rm -r install
 dnf -y install https://pkgs.dyn.su/el8/base/x86_64/raven-release-1.0-2.el8.noarch.rpm
 dnf -y config-manager --set-enabled {raven,raven-{extras,modular,multimedia},powertools,epel,epel-modular,extras,plus}
-dnf -y upgrade --refresh --nobest
+dnf -y upgrade --refresh --best
 curl -sL https://rpm.nodesource.com/setup_17.x | sudo -E bash -
 sudo curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch
 chmod 555 /usr/bin/neofetch
