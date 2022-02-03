@@ -23,9 +23,13 @@ npm i -g npm
 npm i -g typescript pm2 >> /dev/null
 sed -i 's/bash/zsh/g' /etc/default/useradd
 usermod --shell /bin/zsh root
-sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
-sed -i 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config
-sed -i 's/#PasswordAuthentication/PasswordAuthentication/g' /etc/ssh/sshd_config
-sed -i 's/#PermitRootLogin/PermitRootLogin/g' /etc/ssh/sshd_config
+read -p "Disable root login and password auth for SSH? (Y/N, default N) => " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
+    sed -i 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config
+    sed -i 's/#PasswordAuthentication/PasswordAuthentication/g' /etc/ssh/sshd_config
+    sed -i 's/#PermitRootLogin/PermitRootLogin/g' /etc/ssh/sshd_config
+fi
 cd ~
 sh -c "$(curl -fsSL https://raw.github.com/datflowts/centosinit/master/zshinit-w)"
