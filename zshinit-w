@@ -47,6 +47,7 @@ echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     sh -c "$(curl -fsSL https://raw.github.com/datflowts/centosinit/master/rockykde)"
 fi
+dnf -y remove pulseaudio
 update '--nobest --skip-broken --allowerasing'
 echo "--------------------------------------------------------------"
 echo "--------------------------------------------------------------"
