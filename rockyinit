@@ -18,6 +18,7 @@ sudo curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofet
 chmod 555 /usr/bin/neofetch
 dnf -y install git fuse-sshfs nodejs zsh python2 python36 >> /dev/null
 sudo alternatives --set python /usr/bin/python3 >> /dev/null
+npm i -g npm
 npm i -g typescript pm2 >> /dev/null
 sed -i 's/bash/zsh/g' /etc/default/useradd
 usermod --shell /bin/zsh root
