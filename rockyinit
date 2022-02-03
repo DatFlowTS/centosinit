@@ -2,6 +2,7 @@
 
 yum install -y curl wget gcc-c++ make vim dnf epel-release dnf-plugins-core cockpit cockpit-{packagekit,sosreport,storaged,networkmanager,selinux,kdump} >> /dev/null
 dnf install -y https://github.com/45Drives/cockpit-navigator/releases/download/v0.5.8/cockpit-navigator-0.5.8-1.el8.noarch.rpm >> /dev/null
+
 systemctl enable --now cockpit.socket >> /dev/null
 mkdir install;cd install
 wget https://install.speedtest.net/app/cli/ookla-speedtest-1.1.1-linux-x86_64.tgz >> /dev/null
