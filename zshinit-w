@@ -61,7 +61,7 @@ while [[ "$LOCK" -eq "0" ]]; do
     fi
 done
 export NEWUSER=$USRNAME
-useradd -aG wheel $USRNAME
+useradd -G wheel $USRNAME
 echo "User '$NEWUSER' successfully created!"
 env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u $USRNAME --hp /home/$USRNAME >> /dev/null
 pm2 startup >> /dev/null
