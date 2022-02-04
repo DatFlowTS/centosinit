@@ -37,9 +37,34 @@ cp -afv $HOME/.local /etc/skel/ >> /dev/null
 chmod -v 555 /usr/local/bin/**
 touch .hushlogin
 touch /etc/skel/.hushlogin
-useradd datflow
-usermod -aG wheel datflow
-env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u datflow --hp /home/datflow >> /dev/null
+echo '#############################################################'
+echo '#############################################################'
+echo '#############################################################'
+echo "How should the username of the default user (with sudo privileges) be?"
+echo
+read USRNAME
+LOCK=0
+while [[ "$LOCK" -eq "0" ]]; do
+    if [[ "$USRNAME" =~ ^([0-9]{0,31}[[:lower:]]{1,32}[0-9]{0,31}){1,32}$ ]]; then
+        if [[ "$USRNAME" == "default" ]] | [[ "$USRNAME" == "cancel" ]]; then
+            $USRNAME = 'default0'
+        fi
+        LOCK=1
+    else
+        echo "Please provide a valid unix username:"
+        echo " - only 1-32 lowercase alphanumeric characters allowed"
+        echo " - at least one letter is required"
+        echo "Try again or type 'cancel'/'default' to cancel and proceed with the script"
+        echo "Then, a user named 'default0' would be created"
+        read USRNAME
+        LOCK=0
+    fi
+done
+export NEWUSER=$USRNAME
+useradd $USRNAME
+echo "User '$NEWUSER' successfully created!"
+usermod -aG wheel $USRNAME
+env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u $USRNAME --hp /home/$USRNAME >> /dev/null
 pm2 startup >> /dev/null
 echo '#############################################################'
 echo '#############################################################'

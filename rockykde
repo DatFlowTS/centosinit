@@ -6,13 +6,12 @@ dnf -y remove pulseaudio >> /dev/null
 echo "exec /usr/bin/startkde" >> ~/.xinitrc
 echo "exec /usr/bin/startkde" >> /etc/skel/.xinitrc
 systemctl set-default graphical.target
-systemctl isolate graphical.target
-read -p "Enable VNC Access on Port 5901 for datflow? (Y/N, default N) => " -n 1 -r
+read -p "Enable VNC Access on Port 5901 for $NEWUSER? (Y/N, default N) => " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     dnf -y install tigervnc-server >> /dev/null
     cp /lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@:1.service >> /dev/null
-    echo ":1=datflow" >> /etc/tigervnc/vncserver.users
+    echo ":1=$NEWUSER" >> /etc/tigervnc/vncserver.users
     firewall-cmd --add-service=vnc-server >> /dev/null
     firewall-cmd --permanent --add-service=vnc-server >> /dev/null
     firewall-cmd --reload >> /dev/null
@@ -22,7 +21,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo '#######################################################'
     echo '#######################################################'
     echo
-    echo "VNC-Server and Service is enabled for datflow"
+    echo "VNC-Server and Service is enabled for $NEWUSER"
     echo "don't forget to set passwd and vncpasswd for that user"
     echo
     echo '#######################################################'
