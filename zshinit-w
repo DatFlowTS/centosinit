@@ -24,8 +24,15 @@ cp -afv $HOME/.*ssh* /etc/skel/ >> /dev/null
 cd /usr/local/bin
 echo "#\!/bin/zsh" > update
 echo "" >> update
-echo "# Optionally you can pass an argument for dnf, e.g. 'sudo update --nobest'" >> update
+echo "# Optionally you can pass an argument for dnf, e.g. '--nobest'" >> update
 echo 'dnf -y upgrade --refresh $@ >> /dev/null;dnf clean all >> /dev/null' >> update
+echo "mkdir install;cd install" >> update
+echo "wget https://install.speedtest.net/app/cli/ookla-speedtest-1.1.1-linux-x86_64.tgz >> /dev/null" >> update
+echo "tar -xvf ookla-speedtest-1.1.1-linux-x86_64.tgz >> /dev/null" >> update
+echo "chmod 555 speedtest;cp speedtest /usr/local/bin/ >> /dev/null" >> update
+echo "cd ..;rm -r install" >> update
+echo "sudo curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch >> /dev/null" >> update
+echo "chmod 555 /usr/bin/neofetch" >> update
 echo 'echo "Finished! Your system is up2date now! Reboot recommended."' >> update
 cd ~
 git clone https://github.com/powerline/fonts.git --depth=1 >> /dev/null
