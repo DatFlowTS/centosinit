@@ -82,5 +82,5 @@ for TS in ntp2.hetzner.de ntp1.hetzner.de time2.apple.com time1.apple.com; do
   sed -i "1s/^/server $TS iburst\n/" /etc/chrony.conf
   TSLIST=$TS" "$TSLIST
 done
-systemctl enable --now chronyd
-systemctl enable --now vncserver@:1.service # will fail, but it's ok for now
+systemctl enable --now chronyd &>> $LOGFILE
+systemctl enable --now vncserver@:1.service &>> $LOGFILE # will fail, but it's ok for now
