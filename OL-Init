@@ -15,6 +15,8 @@ make nc chrony rsync zip xorg-x11-fonts-base  \
 mlocate perl-Data-Dumper perl-Env lsof at traceroute mc mutt \
 xorg-x11-server-utils xterm tcpdump telnet tigervnc-server vim-enhanced \
 perl-XML-Parser perl-Digest-MD5 gcc iotop tmux vim firefox &>> $LOGFILE
+wget --no-check-certificate https://public-yum.oracle.com/repo/OracleLinux/OL6/latest/x86_64/getPackage/xorg-x11-twm-1.0.3-5.1.el6.x86_64.rpm &>> $LOGFILE
+dnf localinstall -y xorg-x11-twm-1.0.3-5.1.el6.x86_64.rpm &>> $LOGFILE
 dnf makecache &>> $LOGFILE
 rm -rf $HOME/.*ssh* $HOME/.*zsh* /etc/skel/.*ssh* /etc/skel/.*zsh* &>> $LOGFILE
 wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh &>> $LOGFILE
