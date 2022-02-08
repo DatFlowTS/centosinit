@@ -1,21 +1,21 @@
 #!/bin/zsh
 
-dnf -y install breeze-gtk-common >> /dev/null
-dnf -y groupinstall --allowerasing --best --skip-broken "KDE Plasma Workspaces" "base-x" >> /dev/null
-dnf -y remove pulseaudio >> /dev/null
+dnf -y install breeze-gtk-common &>> $LOGFILE
+dnf -y groupinstall --allowerasing --best --skip-broken "KDE Plasma Workspaces" "base-x" &>> $LOGFILE
+dnf -y remove pulseaudio &>> $LOGFILE
 echo "exec /usr/bin/startkde" >> ~/.xinitrc
 echo "exec /usr/bin/startkde" >> /etc/skel/.xinitrc
 systemctl set-default graphical.target
 read -p "Enable VNC Access on Port 5901 for $NEWUSER? (Y/N, default N) => " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    dnf -y install tigervnc-server >> /dev/null
-    cp /lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@:1.service >> /dev/null
+    dnf -y install tigervnc-server &>> $LOGFILE
+    cp /lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@:1.service &>> $LOGFILE
     echo ":1=$NEWUSER" >> /etc/tigervnc/vncserver.users
-    firewall-cmd --add-service=vnc-server >> /dev/null
-    firewall-cmd --permanent --add-service=vnc-server >> /dev/null
-    firewall-cmd --reload >> /dev/null
-    systemctl daemon-reload >> /dev/null
+    firewall-cmd --add-service=vnc-server &>> $LOGFILE
+    firewall-cmd --permanent --add-service=vnc-server &>> $LOGFILE
+    firewall-cmd --reload &>> $LOGFILE
+    systemctl daemon-reload &>> $LOGFILE
     systemctl enable --now vncserver@:1.service
     echo '#######################################################'
     echo '#######################################################'

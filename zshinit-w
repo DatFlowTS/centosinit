@@ -1,11 +1,11 @@
 #!/bin/zsh
 
-rm -rf $HOME/.*ssh* $HOME/.*zsh* /etc/skel/.*ssh* /etc/skel/.*zsh* >> /dev/null
-wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh >> /dev/null
+rm -rf $HOME/.*ssh* $HOME/.*zsh* /etc/skel/.*ssh* /etc/skel/.*zsh* &>> $LOGFILE
+wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh &>> $LOGFILE
 sed -i 's/RUNZSH=\${RUNZSH:-yes}/RUNZSH=\${RUNZSH:-no}/g' install.sh
 sed -i 's/RUNZSH=yes/RUNZSH=no/g' install.sh
 sed -i '352,360d' install.sh
-sh install.sh >> /dev/null
+sh install.sh &>> $LOGFILE
 rm -f install.sh
 sed -i 's/robbyrussell/agnoster/g' $HOME/.zshrc
 sed -i 's/\/root/\$HOME/g' $HOME/.zshrc
@@ -17,10 +17,10 @@ echo "# some customizations following here" >> $HOME/.zshrc
 echo 'export PATH="$HOME/sbin:$HOME/.local/sbin:$HOME/bin:$HOME/.local/bin:/usr/local/bin:/usr/local/sbin:$PATH"' >> $HOME/.zshrc
 echo 'neofetch' >> $HOME/.zshrc
 echo "alias clear='clear;neofetch'" >> $HOME/.zshrc
-cp -afv $HOME/.*zsh* /etc/skel/ >> /dev/null
+cp -afv $HOME/.*zsh* /etc/skel/ &>> $LOGFILE
 mkdir $HOME/.ssh;cd $HOME/.ssh
-curl https://github.com/datflowts.keys | tee -a authorized_keys >> /dev/null
-cp -afv $HOME/.*ssh* /etc/skel/ >> /dev/null
+curl https://github.com/datflowts.keys | tee -a authorized_keys &>> $LOGFILE
+cp -afv $HOME/.*ssh* /etc/skel/ &>> $LOGFILE
 cd /usr/local/bin
 echo "#\!/bin/zsh" > update
 echo "" >> update
@@ -36,12 +36,12 @@ echo "chmod 555 /usr/bin/neofetch" >> update
 echo 'echo "Finished! Your system is up2date now! Reboot recommended."' >> update
 echo 'echo "You can find details in $HOME/update_$(date +%F).log."' >> update
 cd ~
-git clone https://github.com/powerline/fonts.git --depth=1 >> /dev/null
+git clone https://github.com/powerline/fonts.git --depth=1 &>> $LOGFILE
 cd fonts
-./install.sh >> /dev/null
+./install.sh &>> $LOGFILE
 cd ..
 rm -rf fonts
-cp -afv $HOME/.local /etc/skel/ >> /dev/null
+cp -afv $HOME/.local /etc/skel/ &>> $LOGFILE
 chmod -v 555 /usr/local/bin/**
 touch .hushlogin
 touch /etc/skel/.hushlogin
@@ -71,8 +71,8 @@ done
 export NEWUSER=$USRNAME
 useradd -G wheel $USRNAME
 echo "User '$NEWUSER' successfully created!"
-env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u $USRNAME --hp /home/$USRNAME >> /dev/null
-pm2 startup >> /dev/null
+env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u $USRNAME --hp /home/$USRNAME &>> $LOGFILE
+pm2 startup &>> $LOGFILE
 echo '#############################################################'
 echo '#############################################################'
 echo '#############################################################'
@@ -88,7 +88,7 @@ echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     sh -c "$(curl -fsSL https://raw.github.com/datflowts/centosinit/master/rockykde)"
 fi
-update '--best --skip-broken --allowerasing' >> /dev/null
+update '--best --skip-broken --allowerasing' &>> $LOGFILE
 echo '#############################################################'
 echo '#############################################################'
 echo '#############################################################'
