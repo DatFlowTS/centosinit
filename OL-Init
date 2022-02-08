@@ -73,11 +73,11 @@ setenforce 0
 sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
 export PREINSTRPM=oracle-database-preinstall-19c
 dnf install -y $PREINSTRPM 
-update --best
-dnf install -y elfutils-libelf-devel fontconfig-devel libXrender-devel librdmacm-devel python3-rtslib targetcli libvirt-devel libvirt-libs
-dnf install -y libnsl libnsl.i686 libnsl2 libnsl2.i686
-systemctl stop firewalld
-systemctl disable firewalld
+update --best &>> $LOGFILE
+dnf install -y elfutils-libelf-devel fontconfig-devel libXrender-devel librdmacm-devel python3-rtslib targetcli libvirt-devel libvirt-libs &>> $LOGFILE
+dnf install -y libnsl libnsl.i686 libnsl2 libnsl2.i686 &>> $LOGFILE
+systemctl stop firewalld &>> $LOGFILE
+systemctl disable firewalld &>> $LOGFILE
 for TS in ntp2.hetzner.de ntp1.hetzner.de time2.apple.com time1.apple.com; do
   sed -i "1s/^/server $TS iburst\n/" /etc/chrony.conf
   TSLIST=$TS" "$TSLIST
