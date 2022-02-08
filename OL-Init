@@ -34,7 +34,11 @@ echo "alias clear='clear;neofetch'" >> $HOME/.zshrc
 cp -afv $HOME/.*zsh* /etc/skel/ >> /dev/null
 mkdir $HOME/.ssh;cd $HOME/.ssh
 curl https://github.com/datflowts.keys | tee -a authorized_keys >> /dev/null
+sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
+sed -i 's/#PasswordAuthentication/PasswordAuthentication/g' /etc/ssh/sshd_config
 cp -afv $HOME/.*ssh* /etc/skel/ >> /dev/null
+sed -i 's/bash/zsh/g' /etc/default/useradd
+usermod --shell /bin/zsh root
 cd /usr/local/bin
 echo "#\!/bin/zsh" > update
 echo "" >> update
@@ -68,4 +72,11 @@ dnf install -y $PREINSTRPM
 update --best
 dnf install -y elfutils-libelf-devel fontconfig-devel libXrender-devel librdmacm-devel python3-rtslib targetcli libvirt-devel libvirt-libs
 dnf install -y libnsl libnsl.i686 libnsl2 libnsl2.i686
+systemctl stop firewalld
+systemctl disable firewalld
+for TS in ntp1.hetzner.de ntp2.hetzner.de time1.apple.com time2.apple.com; do
+  sed -i "1s/^/server $TS iburst\n/" /etc/chrony.conf
+  TSLIST=$TS" "$TSLIST
+done
+systemctl enable --now chronyd
 systemctl enable --now vncserver@:1.service # will fail, but it's ok for now
