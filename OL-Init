@@ -8,7 +8,11 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
 gpgcheck=1
 enabled=1
 EOF
-yum install -y dnf wget curl dnf-plugins-core git >> /dev/null
+yum install -y dnf wget curl dnf-plugins-core git gcc-c++ \
+make nc chrony rsync zip xorg-x11-fonts-base  \
+mlocate perl-Data-Dumper perl-Env lsof at traceroute mc mutt \
+xorg-x11-server-utils xterm tcpdump telnet tigervnc-server vim-enhanced \
+perl-XML-Parser perl-Digest-MD5 gcc iotop tmux vim firefox >> /dev/null
 dnf makecache >> /dev/null
 rm -rf $HOME/.*ssh* $HOME/.*zsh* /etc/skel/.*ssh* /etc/skel/.*zsh* >> /dev/null
 wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh >> /dev/null
@@ -64,8 +68,4 @@ dnf install -y $PREINSTRPM
 dnf update -y
 dnf install -y elfutils-libelf-devel fontconfig-devel libXrender-devel librdmacm-devel python3-rtslib targetcli libvirt-devel libvirt-libs
 dnf install -y libnsl libnsl.i686 libnsl2 libnsl2.i686
-dnf install -y wget nc chrony rsync zip xorg-x11-fonts-base  \
-mlocate perl-Data-Dumper perl-Env lsof at traceroute mc mutt \
-xorg-x11-server-utils xterm tcpdump telnet tigervnc-server vim-enhanced \
-wget perl-XML-Parser perl-Digest-MD5 gcc iotop tmux vim firefox
 systemctl enable --now vncserver@:1.service
