@@ -1,0 +1,71 @@
+#!/bin/zsh
+
+sudo tee /etc/yum.repos.d/ol8-epel.repo<<EOF
+[ol8_developer_EPEL]
+name= Oracle Linux \$releasever EPEL (\$basearch)
+baseurl=https://yum.oracle.com/repo/OracleLinux/OL8/developer/EPEL/\$basearch/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
+gpgcheck=1
+enabled=1
+EOF
+yum install -y dnf wget curl dnf-plugins-core git >> /dev/null
+dnf makecache >> /dev/null
+rm -rf $HOME/.*ssh* $HOME/.*zsh* /etc/skel/.*ssh* /etc/skel/.*zsh* >> /dev/null
+wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh >> /dev/null
+sed -i 's/RUNZSH=\${RUNZSH:-yes}/RUNZSH=\${RUNZSH:-no}/g' install.sh
+sed -i 's/RUNZSH=yes/RUNZSH=no/g' install.sh
+sed -i '352,360d' install.sh
+sh install.sh >> /dev/null
+rm -f install.sh
+sed -i 's/robbyrussell/agnoster/g' $HOME/.zshrc
+sed -i 's/\/root/\$HOME/g' $HOME/.zshrc
+echo "" >> $HOME/.zshrc
+echo "############################################" >> $HOME/.zshrc
+echo "############################################" >> $HOME/.zshrc
+echo "" >> $HOME/.zshrc
+echo "# some customizations following here" >> $HOME/.zshrc
+echo 'export PATH="$HOME/sbin:$HOME/.local/sbin:$HOME/bin:$HOME/.local/bin:/usr/local/bin:/usr/local/sbin:$PATH"' >> $HOME/.zshrc
+echo 'neofetch' >> $HOME/.zshrc
+echo "alias clear='clear;neofetch'" >> $HOME/.zshrc
+cp -afv $HOME/.*zsh* /etc/skel/ >> /dev/null
+mkdir $HOME/.ssh;cd $HOME/.ssh
+curl https://github.com/datflowts.keys | tee -a authorized_keys >> /dev/null
+cp -afv $HOME/.*ssh* /etc/skel/ >> /dev/null
+cd /usr/local/bin
+echo "#\!/bin/zsh" > update
+echo "" >> update
+echo "# Optionally you can pass an argument for dnf, e.g. '--nobest'" >> update
+echo 'dnf -y upgrade --refresh $@ >> /dev/null;dnf clean all >> $HOME/update_$(date +%F).log' >> update
+echo 'sudo curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch >> $HOME/update_$(date +%F).log' >> update
+echo "chmod 555 /usr/bin/neofetch" >> update
+echo 'echo "Finished! Your system is up2date now! Reboot recommended."' >> update
+echo 'echo "You can find details in $HOME/update_$(date +%F).log."' >> update
+cd ~
+git clone https://github.com/powerline/fonts.git --depth=1 >> /dev/null
+cd fonts
+./install.sh >> /dev/null
+cd ..
+rm -rf fonts
+cp -afv $HOME/.local /etc/skel/ >> /dev/null
+chmod -v 555 /usr/local/bin/**
+touch .hushlogin
+touch /etc/skel/.hushlogin
+dnf -y install tigervnc-server >> /dev/null
+cp /lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@:1.service >> /dev/null
+echo ":1=root"  >> /etc/tigervnc/vncserver.users
+firewall-cmd --add-service=vnc-server >> /dev/null
+firewall-cmd --permanent --add-service=vnc-server >> /dev/null
+firewall-cmd --reload >> /dev/null
+systemctl daemon-reload >> /dev/null
+setenforce 0
+sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+export PREINSTRPM=oracle-database-preinstall-19c
+dnf install -y $PREINSTRPM 
+dnf update -y
+dnf install -y elfutils-libelf-devel fontconfig-devel libXrender-devel librdmacm-devel python3-rtslib targetcli libvirt-devel libvirt-libs
+dnf install -y libnsl libnsl.i686 libnsl2 libnsl2.i686
+dnf install -y wget nc chrony rsync zip xorg-x11-fonts-base  \
+mlocate perl-Data-Dumper perl-Env lsof at traceroute mc mutt \
+xorg-x11-server-utils xterm tcpdump telnet tigervnc-server vim-enhanced \
+wget perl-XML-Parser perl-Digest-MD5 gcc iotop tmux vim firefox
+systemctl enable --now vncserver@:1.service
