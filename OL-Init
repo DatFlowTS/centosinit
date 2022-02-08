@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 export LOGFILE=$HOME/init_$(date +%F).log
 
