@@ -8,6 +8,11 @@ sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/rockyinit)
 sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/centosinit)"
 ```
 
+# Oracle Linux 8
+```bash
+sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/OL-Init)"
+```
+
 # Ubuntu 20.04
 ```bash
 sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/ubuntuinit)"
