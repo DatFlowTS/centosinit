@@ -47,8 +47,8 @@ cd /usr/local/bin
 echo "#\!/bin/zsh" > update
 echo "" >> update
 echo "# Optionally you can pass an argument for dnf, e.g. '--nobest'" >> update
-echo 'dnf -y upgrade --refresh $@ >> /dev/null;dnf clean all >> $HOME/update_$(date +%F).log' >> update
-echo 'sudo curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch >> $HOME/update_$(date +%F).log' >> update
+echo 'dnf -y upgrade --refresh $@ >> /dev/null;dnf clean all &>> $HOME/update_$(date +%F).log' >> update
+echo 'sudo curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch &>> $HOME/update_$(date +%F).log' >> update
 echo "chmod 555 /usr/bin/neofetch" >> update
 echo 'echo "Finished! Your system is up2date now! Reboot recommended."' >> update
 echo 'echo "You can find details in $HOME/update_$(date +%F).log."' >> update
