@@ -68,4 +68,4 @@ dnf install -y $PREINSTRPM
 update --best
 dnf install -y elfutils-libelf-devel fontconfig-devel libXrender-devel librdmacm-devel python3-rtslib targetcli libvirt-devel libvirt-libs
 dnf install -y libnsl libnsl.i686 libnsl2 libnsl2.i686
-systemctl enable --now vncserver@:1.service
+systemctl enable --now vncserver@:1.service # will fail, but it's ok for now
