@@ -5,7 +5,7 @@ apt install -y curl wget gcc make vim sshfs gnupg1 apt-transport-https dirmngr f
 curl -s https://install.speedtest.net/app/cli/install.deb.sh | sudo bash
 curl -sL https://deb.nodesource.com/setup_current.x | sudo -E bash -
 apt update
-apt -y install git nodejs neofetch zsh speedtest-cli
+apt -y install git nodejs npm neofetch zsh speedtest-cli
 npm i -g typescript pm2
 sed -i 's/bash/zsh/g' /etc/adduser.conf
 sed -i 's/sh/zsh/g' /etc/default/useradd
