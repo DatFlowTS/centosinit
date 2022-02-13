@@ -48,28 +48,28 @@ touch /etc/skel/.hushlogin
 echo '#############################################################'
 echo '#############################################################'
 echo '#############################################################'
-echo "How should the username of the default user (with sudo privileges) be?"
+echo "What is the username of your default user?"
 read USRNAME
 LOCK=0
 while [[ "$LOCK" -eq "0" ]]; do
     if [[ "$USRNAME" =~ ^([0-9]{0,31}[[:lower:]]{1,32}[0-9]{0,31}){1,32}$ ]]; then
-        if [[ "$USRNAME" == "default" ]] | [[ "$USRNAME" == "cancel" ]]; then
-            $USRNAME = 'default0'
-        fi
         LOCK=1
     else
         echo "Please provide a valid unix username:"
         echo " - only 1-32 lowercase alphanumeric characters allowed"
         echo " - at least one letter is required"
-        echo "Try again or type 'cancel'/'default' to cancel and proceed with the script"
-        echo "Then, a user named 'default0' would be created"
+        echo "type 'root' if there's none."
         read USRNAME
         LOCK=0
     fi
 done
-export NEWUSER=$USRNAME
-useradd -G wheel $USRNAME
-echo "User '$NEWUSER' successfully created!"
+export USER=$USRNAME
+cp -afv $HOME/.*zsh* /$USER/ &>> $LOGFILE
+cp -afv $HOME/.*zsh* /home/$USER/ &>> $LOGFILE
+cp -afv $HOME/.*ssh* /$USER/ &>> $LOGFILE
+cp -afv $HOME/.*ssh* /home/$USER/ &>> $LOGFILE
+chown -R $USER:$USER /$USER
+chown -R $USER:$USER /home/$USER
 env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u $USRNAME --hp /home/$USRNAME &>> $LOGFILE
 pm2 startup &>> $LOGFILE
 echo '#############################################################'
@@ -82,14 +82,9 @@ echo '#############################################################'
 echo '#############################################################'
 echo '#############################################################'
 speedtest
-read -p "Install KDE Plasma Desktop, too? (Y/N, default N) => " -n 1 -r
+echo '#############################################################'
+echo '#############################################################'
+echo '#############################################################'
 echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    sh -c "$(curl -fsSL https://raw.github.com/datflowts/centosinit/master/rockykde)"
-fi
 update '--best --skip-broken --allowerasing' &>> $LOGFILE
-echo '#############################################################'
-echo '#############################################################'
-echo '#############################################################'
-echo
 echo "Finished! Reboot recommended!"
