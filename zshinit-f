@@ -70,6 +70,7 @@ cp -afv $HOME/.*ssh* /$USER/ &>> $LOGFILE
 cp -afv $HOME/.*ssh* /home/$USER/ &>> $LOGFILE
 chown -R $USER:$USER /$USER
 chown -R $USER:$USER /home/$USER
+usermod --shell /bin/zsh $USER
 env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u $USRNAME --hp /home/$USRNAME &>> $LOGFILE
 pm2 startup &>> $LOGFILE
 echo '#############################################################'
