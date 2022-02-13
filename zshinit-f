@@ -64,11 +64,13 @@ while [[ "$LOCK" -eq "0" ]]; do
     fi
 done
 export USER=$USRNAME
-cp -afv $HOME/.*zsh* /$USER/ &>> $LOGFILE
+#cp -afv $HOME/.*zsh* /$USER/ &>> $LOGFILE
 cp -afv $HOME/.*zsh* /home/$USER/ &>> $LOGFILE
-cp -afv $HOME/.*ssh* /$USER/ &>> $LOGFILE
+#cp -afv $HOME/.*ssh* /$USER/ &>> $LOGFILE
 cp -afv $HOME/.*ssh* /home/$USER/ &>> $LOGFILE
-chown -R $USER:$USER /$USER
+#cp -afv $HOME/.local /$USER/ &>> $LOGFILE
+cp -afv $HOME/.local /home/$USER/ &>> $LOGFILE
+#chown -R $USER:$USER /$USER
 chown -R $USER:$USER /home/$USER
 usermod --shell /bin/zsh $USER
 env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u $USER --hp /home/$USER &>> $LOGFILE
