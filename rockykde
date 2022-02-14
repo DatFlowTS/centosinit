@@ -6,6 +6,7 @@ dnf -y remove pulseaudio &>> $LOGFILE
 echo "exec /usr/bin/startkde" >> ~/.xinitrc
 echo "exec /usr/bin/startkde" >> /etc/skel/.xinitrc
 systemctl set-default graphical.target
+dnf -y install yakuake
 read -p "Enable VNC Access on Port 5901 for $NEWUSER? (Y/N, default N) => " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then

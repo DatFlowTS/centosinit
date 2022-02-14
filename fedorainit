@@ -4,7 +4,7 @@ export LOGFILE="$HOME/init_$(date +%F).log"
 
 curl -sL https://rpm.nodesource.com/setup_17.x | sudo -E bash - &>> $LOGFILE
 sed -i '/priority/d' /etc/yum.repos.d/nodesource-fc35.repo &>> $LOGFILE
-dnf install -y gcc-c++ vim cockpit cockpit-{packagekit,sosreport,storaged,networkmanager,selinux,kdump,navigator} git fuse-sshfs nodejs zsh python2 python36 &>> $LOGFILE
+dnf install -y yakuake gcc-c++ vim cockpit cockpit-{packagekit,sosreport,storaged,networkmanager,selinux,kdump,navigator} git fuse-sshfs nodejs zsh python2 python36 &>> $LOGFILE
 sudo alternatives --set python /usr/bin/python3 &>> $LOGFILE
 mkdir install;cd install
 wget https://install.speedtest.net/app/cli/ookla-speedtest-1.1.1-linux-x86_64.tgz &>> $LOGFILE
