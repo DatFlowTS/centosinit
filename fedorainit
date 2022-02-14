@@ -12,7 +12,7 @@ tar -xvf ookla-speedtest-1.1.1-linux-x86_64.tgz &>> $LOGFILE
 chmod 555 speedtest;cp speedtest /usr/local/bin/ &>> $LOGFILE
 cd ..;rm -r install
 dnf -y upgrade --refresh --best &>> $LOGFILE
-sudo curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch &>> $LOGFILE
+curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch &>> $LOGFILE
 chmod 555 /usr/bin/neofetch
 systemctl enable --now cockpit.socket &>> $LOGFILE
 npm i -g npm
@@ -31,4 +31,4 @@ else
 fi
 systemctl enable --now sshd &>> $LOGFILE
 cd ~
-sh -c "$(curl -fsSL https://raw.github.com/datflowts/centosinit/master/zshinit-w)"
+sh -c "$(curl -fsSL https://raw.github.com/datflowts/centosinit/master/zshinit-f)"
