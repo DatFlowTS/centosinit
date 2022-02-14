@@ -63,17 +63,17 @@ while [[ "$LOCK" -eq "0" ]]; do
         LOCK=0
     fi
 done
-export USER=$USRNAME
-#cp -afv $HOME/.*zsh* /$USER/ &>> $LOGFILE
-cp -afv $HOME/.*zsh* /home/$USER/ &>> $LOGFILE
-#cp -afv $HOME/.*ssh* /$USER/ &>> $LOGFILE
-cp -afv $HOME/.*ssh* /home/$USER/ &>> $LOGFILE
-#cp -afv $HOME/.local /$USER/ &>> $LOGFILE
-cp -afv $HOME/.local /home/$USER/ &>> $LOGFILE
-#chown -R $USER:$USER /$USER
-chown -R $USER:$USER /home/$USER
-usermod --shell /bin/zsh $USER
-env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u $USER --hp /home/$USER &>> $LOGFILE
+export $USRNAME
+#cp -afv $HOME/.*zsh* /$USRNAME/ &>> $LOGFILE
+cp -afv $HOME/.*zsh* /home/$USRNAME/ &>> $LOGFILE
+#cp -afv $HOME/.*ssh* /$USRNAME/ &>> $LOGFILE
+cp -afv $HOME/.*ssh* /home/$USRNAME/ &>> $LOGFILE
+#cp -afv $HOME/.local /$USRNAME/ &>> $LOGFILE
+cp -afv $HOME/.local /home/$USRNAME/ &>> $LOGFILE
+#chown -R $USRNAME:$USRNAME /$USRNAME
+chown -R $USRNAME:$USRNAME /home/$USRNAME
+usermod --shell /bin/zsh $USRNAME
+env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u $USRNAME --hp /home/$USRNAME &>> $LOGFILE
 pm2 startup &>> $LOGFILE
 echo '#############################################################'
 echo '#############################################################'
@@ -85,12 +85,12 @@ echo '#############################################################'
 echo '#############################################################'
 echo '#############################################################'
 speedtest
-read -p "Enable VNC Access on Port 5901 for $USER? (Y/N, default N) => " -n 1 -r
+read -p "Enable VNC Access on Port 5901 for $USRNAME? (Y/N, default N) => " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     dnf -y install tigervnc-server &>> $LOGFILE
     cp /lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@:1.service &>> $LOGFILE
-    echo ":1=$USER" >> /etc/tigervnc/vncserver.users
+    echo ":1=$USRNAME" >> /etc/tigervnc/vncserver.users
     firewall-cmd --add-service=vnc-server &>> $LOGFILE
     firewall-cmd --permanent --add-service=vnc-server &>> $LOGFILE
     firewall-cmd --reload &>> $LOGFILE
@@ -100,7 +100,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo '#############################################################'
     echo '#############################################################'
     echo
-    echo "VNC-Server and Service is enabled for $USER"
+    echo "VNC-Server and Service is enabled for $USRNAME"
     echo "don't forget to set passwd and vncpasswd for that user"
     echo
 fi
