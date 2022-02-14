@@ -85,6 +85,25 @@ echo '#############################################################'
 echo '#############################################################'
 echo '#############################################################'
 speedtest
+read -p "Enable VNC Access on Port 5901 for $USER? (Y/N, default N) => " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    dnf -y install tigervnc-server &>> $LOGFILE
+    cp /lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@:1.service &>> $LOGFILE
+    echo ":1=$USER" >> /etc/tigervnc/vncserver.users
+    firewall-cmd --add-service=vnc-server &>> $LOGFILE
+    firewall-cmd --permanent --add-service=vnc-server &>> $LOGFILE
+    firewall-cmd --reload &>> $LOGFILE
+    systemctl daemon-reload &>> $LOGFILE
+    systemctl enable --now vncserver@:1.service
+    echo '#############################################################'
+    echo '#############################################################'
+    echo '#############################################################'
+    echo
+    echo "VNC-Server and Service is enabled for $USER"
+    echo "don't forget to set passwd and vncpasswd for that user"
+    echo
+fi
 echo '#############################################################'
 echo '#############################################################'
 echo '#############################################################'
