@@ -5,6 +5,7 @@ wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh &
 sed -i 's/RUNZSH=\${RUNZSH:-yes}/RUNZSH=\${RUNZSH:-no}/g' install.sh
 sed -i 's/RUNZSH=yes/RUNZSH=no/g' install.sh
 sed -i '330,424d' install.sh
+sed -i '399d' install.sh
 sh install.sh &>> $LOGFILE
 rm -f install.sh
 sed -i 's/robbyrussell/agnoster/g' $HOME/.zshrc
@@ -17,6 +18,9 @@ echo "# some customizations following here" >> $HOME/.zshrc
 echo 'export PATH="$HOME/sbin:$HOME/.local/sbin:$HOME/bin:$HOME/.local/bin:/usr/local/bin:/usr/local/sbin:$PATH"' >> $HOME/.zshrc
 echo 'neofetch' >> $HOME/.zshrc
 echo "alias clear='clear;neofetch'" >> $HOME/.zshrc
+echo "alias _='sudo '" >> $HOME/.zshrc
+echo "alias su='su - '" >> $HOME/.zshrc
+echo "alias lsd='ls -dR'" >> $HOME/.zshrc
 cp -afv $HOME/.*zsh* /etc/skel/ &>> $LOGFILE
 mkdir $HOME/.ssh;cd $HOME/.ssh
 curl https://github.com/datflowts.keys | tee -a authorized_keys &>> $LOGFILE
