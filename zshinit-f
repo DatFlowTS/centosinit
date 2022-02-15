@@ -20,7 +20,7 @@ echo 'neofetch' >> $HOME/.zshrc
 echo "alias clear='clear;neofetch'" >> $HOME/.zshrc
 echo "alias _='sudo '" >> $HOME/.zshrc
 echo "alias su='su - '" >> $HOME/.zshrc
-echo "alias ld='ls -dR'" >> $HOME/.zshrc
+echo "alias lsd='ls -dR'" >> $HOME/.zshrc
 cp -afv $HOME/.*zsh* /etc/skel/ &>> $LOGFILE
 mkdir $HOME/.ssh;cd $HOME/.ssh
 curl https://github.com/datflowts.keys | tee -a authorized_keys &>> $LOGFILE
