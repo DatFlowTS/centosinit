@@ -2,9 +2,9 @@
 
 echo "Preparing to set up OhMyZSH...
 --------------------------
-" | tee -a $LOGFILE
-rm -rfv $HOME/.*ssh* $HOME/.*zsh* /etc/skel/.*ssh* /etc/skel/.*zsh* | tee -a $LOGFILE
-wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | tee -a $LOGFILE
+" 2>&1 | tee -a $LOGFILE
+rm -rfv $HOME/.*ssh* $HOME/.*zsh* /etc/skel/.*ssh* /etc/skel/.*zsh* 2>&1 | tee -a $LOGFILE
+wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh 2>&1 | tee -a $LOGFILE
 sed -i 's/RUNZSH=\${RUNZSH:-yes}/RUNZSH=\${RUNZSH:-no}/g' install.sh
 sed -i 's/RUNZSH=yes/RUNZSH=no/g' install.sh
 sed -i 's/CHSH=\${CHSH:-yes}/CHSH=\${CHSH:-no}/g' install.sh
@@ -14,9 +14,9 @@ echo "
 Running OhMyZSH installer:
 --------------------------
 --------------------------
-" | tee -a $LOGFILE
-sh install.sh | tee -a $LOGFILE
-rm -fv install.sh | tee -a $LOGFILE
+" 2>&1 | tee -a $LOGFILE
+sh install.sh 2>&1 | tee -a $LOGFILE
+rm -fv install.sh 2>&1 | tee -a $LOGFILE
 sed -i 's/robbyrussell/agnoster/g' $HOME/.zshrc
 sed -i 's/\/root/\$HOME/g' $HOME/.zshrc
 echo "
@@ -24,7 +24,7 @@ echo "
 --------------------------
 Appending $HOME/.zshrc with the following content:
 --------------------------
-"  | tee -a $LOGFILE
+"  2>&1 | tee -a $LOGFILE
 echo "
 
 ############################################
@@ -38,22 +38,22 @@ alias su='su - '
 alias ll='ls -lat'
 alias llt='ls -laRt'
 alias lld='ls -ladRt'
-" | tee -a $HOME/.zshrc | tee -a $LOGFILE
+" | tee -a $HOME/.zshrc 2>&1 | tee -a $LOGFILE
 echo '
 # extending PATH environment
-export PATH="$HOME/sbin:$HOME/.local/sbin:$HOME/bin:$HOME/.local/bin:/usr/local/bin:/usr/local/sbin:$PATH"' | tee -a $HOME/.zshrc | tee -a $LOGFILE
-rm -rfv $HOME/.zshrc.pre-oh-my-zsh | tee -a $LOGFILE
-cp -afv $HOME/.*zsh* /etc/skel/ | tee -a $LOGFILE
-mkdir -v $HOME/.ssh | tee -a $LOGFILE;cd $HOME/.ssh
-curl https://github.com/datflowts.keys | tee -a authorized_keys | tee -a $LOGFILE
-cp -afv $HOME/.*ssh* /etc/skel/ | tee -a $LOGFILE
+export PATH="$HOME/sbin:$HOME/.local/sbin:$HOME/bin:$HOME/.local/bin:/usr/local/bin:/usr/local/sbin:$PATH"' | tee -a $HOME/.zshrc 2>&1 | tee -a $LOGFILE
+rm -rfv $HOME/.zshrc.pre-oh-my-zsh 2>&1 | tee -a $LOGFILE
+cp -afv $HOME/.*zsh* /etc/skel/ 2>&1 | tee -a $LOGFILE
+mkdir -v $HOME/.ssh 2>&1 | tee -a $LOGFILE;cd $HOME/.ssh
+curl https://github.com/datflowts.keys | tee -a authorized_keys 2>&1 | tee -a $LOGFILE
+cp -afv $HOME/.*ssh* /etc/skel/ 2>&1 | tee -a $LOGFILE
 cd /usr/local/bin
 echo "
 --------------------------
 --------------------------
 Setting up 'update' command:
 --------------------------
-" | tee -a $LOGFILE
+" 2>&1 | tee -a $LOGFILE
 touch update
 echo "#\!/bin/zsh
 
@@ -72,26 +72,26 @@ read -p 'Reebot now? (Y/N, default N) => ' -n 1 -r | tee -a $HOME/update_$(date 
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     shutdown -r | tee -a $HOME/update_$(date +%F).log
 fi
-" | tee -a update | tee -a $LOGFILE
+" | tee -a update 2>&1 | tee -a $LOGFILE
 echo "
 --------------------------
 --------------------------
 Yeah, 'update' command is now available!
-" | tee -a $LOGFILE
+" 2>&1 | tee -a $LOGFILE
 cd ~
 echo "
 --------------------------
 --------------------------
 Installing powerline fonts
 --------------------------
-" | tee -a $LOGFILE
-git clone https://github.com/powerline/fonts.git --depth=1 | tee -a $LOGFILE
+" 2>&1 | tee -a $LOGFILE
+git clone https://github.com/powerline/fonts.git --depth=1 2>&1 | tee -a $LOGFILE
 cd fonts
-./install.sh | tee -a $LOGFILE
+./install.sh 2>&1 | tee -a $LOGFILE
 cd ..
 rm -rf fonts
-cp -afv $HOME/.local /etc/skel/ | tee -a $LOGFILE
-chmod -v 555 /usr/local/bin/** | tee -a $LOGFILE
+cp -afv $HOME/.local /etc/skel/ 2>&1 | tee -a $LOGFILE
+chmod -v 555 /usr/local/bin/** 2>&1 | tee -a $LOGFILE
 touch .hushlogin
 touch /etc/skel/.hushlogin
 echo "
@@ -103,13 +103,13 @@ create other users with sudo privileges and disable root.
 So, let's define your default user! 
 Please, provide a username ('default' or 'cancel' to create
 a user with username 'default0'):
-" | tee -a $LOGFILE
+" 2>&1 | tee -a $LOGFILE
 read USRNAME 
 echo "
 --------------------------
 checking '$USRNAME' ...
 --------------------------
-" | tee -a $LOGFILE
+" 2>&1 | tee -a $LOGFILE
 LOCK=0
 while [[ "$LOCK" -eq "0" ]]; do
     if [[ "$USRNAME" =~ ^([0-9]{0,31}[[:lower:]]{1,32}[0-9]{0,31}){1,32}$ ]]; then
@@ -122,13 +122,13 @@ while [[ "$LOCK" -eq "0" ]]; do
 - only 1-32 lowercase alphanumeric characters allowed
 - at least one alphabetic letter is required
 Try again or type 'cancel' or 'default' to cancel and proceed with setup
-Then a user named 'default0' will be created" | tee -a $LOGFILE
+Then a user named 'default0' will be created" 2>&1 | tee -a $LOGFILE
         read USRNAME
         echo "
 --------------------------
 checking '$USRNAME' ...
 --------------------------
-" | tee -a $LOGFILE
+" 2>&1 | tee -a $LOGFILE
         LOCK=0
     fi
 done
@@ -139,9 +139,9 @@ echo "
 User '$NEWUSER' successfully created!
 --------------------------
 --------------------------
-" | tee -a $LOGFILE
-env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u $NEWUSER --hp /home/$NEWUSER | tee -a $LOGFILE
-pm2 startup | tee -a $LOGFILE
+" 2>&1 | tee -a $LOGFILE
+env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u $NEWUSER --hp /home/$NEWUSER 2>&1 | tee -a $LOGFILE
+pm2 startup 2>&1 | tee -a $LOGFILE
 echo "
 #############################################################
 #############################################################
@@ -152,21 +152,21 @@ Now we're checking your connection! Please accept with 'yes'!
 #############################################################
 #############################################################
 #############################################################
-" | tee -a $LOGFILE
-speedtest | tee -a $LOGFILE
-read -p "Install KDE Plasma Desktop, too? (Y/N, default N) => " -n 1 -r | tee -a $LOGFILE
-echo "" | tee -a $LOGFILE
+" 2>&1 | tee -a $LOGFILE
+speedtest 2>&1 | tee -a $LOGFILE
+read -p "Install KDE Plasma Desktop, too? (Y/N, default N) => " -n 1 -r 2>&1 | tee -a $LOGFILE
+echo "" 2>&1 | tee -a $LOGFILE
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     sh -c "$(curl -fsSL https://raw.github.com/datflowts/centosinit/master/rockykde)"
 fi
-update '--best' | tee -a $LOGFILE
+update '--best' 2>&1 | tee -a $LOGFILE
 echo '
 #############################################################
 #############################################################
 #############################################################
 Finished! Reboot recommended!
-' | tee -a $LOGFILE
-read -p "Reebot now? (Y/N, default N) => " -n 1 -r | tee -a $LOGFILE
+' 2>&1 | tee -a $LOGFILE
+read -p "Reebot now? (Y/N, default N) => " -n 1 -r 2>&1 | tee -a $LOGFILE
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    shutdown -r | tee -a $LOGFILE
+    shutdown -r 2>&1 | tee -a $LOGFILE
 fi
