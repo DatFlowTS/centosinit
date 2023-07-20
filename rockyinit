@@ -2,36 +2,64 @@
 
 export LOGFILE="$HOME/init_$(date +%F).log"
 
-dnf -y install https://pkgs.dyn.su/el9/base/x86_64/raven-release-1.0-4.el9.noarch.rpm
-dnf -y config-manager --set-enabled {crb,baseos,appstream,extras,plus,raven,raven-{extras,modular,multimedia}}
-dnf -y install epel-release dnf-plugins-core gcc-c++
-dnf -y install https://rpms.remirepo.net/enterprise/remi-release-9.rpm
-dnf -y config-manager --set-enabled {epel,epel-modular}
-dnf -y update && dnf -y upgrade --refresh
-dnf -y install wget make vim  cockpit cockpit-{packagekit,sosreport,storaged,networkmanager,selinux,kdump}
-dnf install -y https://github.com/45Drives/cockpit-navigator/releases/download/v0.5.10/cockpit-navigator-0.5.10-1.el8.noarch.rpm
-systemctl enable --now cockpit.socket
-curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.rpm.sh | sudo bash
-curl -sL https://rpm.nodesource.com/setup_current.x | sudo -E bash -
-systemctl daemon-reload
-sudo curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch
-chmod 555 /usr/bin/neofetch
-dnf -y update && dnf -y upgrade --refresh --best
-dnf -y install git fuse-sshfs nodejs zsh python2 python36 speedtest
-sudo alternatives --set python /usr/bin/python3
-npm i -g npm
-npm i -g typescript pm2
+dnf -y install https://pkgs.dyn.su/el9/base/x86_64/raven-release-1.0-4.el9.noarch.rpm | tee -a $LOGFILE
+dnf -y config-manager --set-enabled {crb,baseos,appstream,extras,plus,raven,raven-{extras,modular,multimedia}} | tee -a $LOGFILE
+dnf -y install epel-release dnf-plugins-core gcc-c++ | tee -a $LOGFILE
+dnf -y install https://rpms.remirepo.net/enterprise/remi-release-9.rpm | tee -a $LOGFILE
+dnf -y config-manager --set-enabled {epel,epel-modular} | tee -a $LOGFILE
+dnf -y upgrade --refresh | tee -a $LOGFILE
+dnf -y update | tee -a $LOGFILE
+dnf -y install wget make vim  cockpit cockpit-{packagekit,sosreport,storaged,networkmanager,selinux,kdump} | tee -a $LOGFILE
+dnf install -y https://github.com/45Drives/cockpit-navigator/releases/download/v0.5.10/cockpit-navigator-0.5.10-1.el8.noarch.rpm | tee -a $LOGFILE
+systemctl enable --now cockpit.socket | tee -a $LOGFILE
+curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.rpm.sh | sudo bash | tee -a $LOGFILE
+curl -sL https://rpm.nodesource.com/setup_current.x | sudo -E bash - | tee -a $LOGFILE
+systemctl daemon-reload | tee -a $LOGFILE
+sudo curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch | tee -a $LOGFILE
+chmod -v 555 /usr/bin/neofetch | tee -a $LOGFILE
+dnf -y upgrade --refresh --best | tee -a $LOGFILE
+dnf -y update | tee -a $LOGFILE
+dnf -y install git fuse-sshfs nodejs zsh python2 python36 speedtest | tee -a $LOGFILE
+sudo alternatives --set python /usr/bin/python3 | tee -a $LOGFILE
+npm i -g npm | tee -a $LOGFILE
+npm i -g typescript pm2 | tee -a $LOGFILE
 sed -i 's/bash/zsh/g' /etc/default/useradd
-usermod --shell /bin/zsh root
-read -p "Disable root login and password auth for SSH? (Y/N, default N) => " -n 1 -r
-echo
+usermod --shell /bin/zsh root | tee -a $LOGFILE
+echo "
+--------------------------
+--------------------------
+" | tee -a $LOGFILE
+read -p "Disable 'root' login for SSH? (Y/N, default N) => " -n 1 -r | tee -a $LOGFILE
+echo "" | tee -a $LOGFILE
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    sed -i 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config
+    sed -i 's/#PermitRootLogin/PermitRootLogin/g' /etc/ssh/sshd_config
+    echo "SSH Acces for 'root' has been disabled." | tee -a $LOGFILE
+else
+    echo "
+--------------------------
+Kept current configuration. Proceeding to next step.
+WARNING: it's not recommended to grant SSH access for 'root'!
+--------------------------
+" | tee -a $LOGFILE
+fi
+echo "
+--------------------------
+--------------------------
+" | tee -a $LOGFILE
+read -p "Disable password authentication for SSH? (Y/N, default N) => " -n 1 -r | tee -a $LOGFILE
+echo "" | tee -a $LOGFILE
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
-    sed -i 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config
     sed -i 's/#PasswordAuthentication/PasswordAuthentication/g' /etc/ssh/sshd_config
-    sed -i 's/#PermitRootLogin/PermitRootLogin/g' /etc/ssh/sshd_config
+    echo "Password authentication for SSH has been disabled." | tee -a $LOGFILE
 else
-    echo "Kept current configuration. Proceeding to next steps."
+    echo "
+--------------------------
+Kept current configuration. Proceeding to next steps.
+WARNING: it's recommended to authenticate via ssh-key instead!
+--------------------------
+" | tee -a $LOGFILE
 fi
 cd ~
 sh -c "$(curl -fsSL https://raw.github.com/datflowts/centosinit/master/zshinit-w)"
