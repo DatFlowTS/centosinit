@@ -1,29 +1,27 @@
 #!/bin/bash
 
-
-
 if [ "$distro" == "rhel" ] || [ "$distro" == "fedora" ]; then
 	items=$(find /etc/yum.repos.d -name '45drives.repo')
 
 	if [[ -z "$items" ]]; then
-		echo "There were no existing 45Drives repos found. Setting up the new repo..."
+		echo "There were no existing 45Drives repos found. Setting up the new repo..." | tee -a $CONFIG_LOG
 	else
 		count=$(echo "$items" | wc -l)
-		echo "There were $count 45Drives repo(s) found. Archiving..."
+		echo "There were $count 45Drives repo(s) found. Archiving..." | tee -a $CONFIG_LOG
 
-		mkdir -p /opt/45drives/archives/repos
+		mkdir -vp /opt/45drives/archives/repos | tee -a $CONFIG_LOG
 
-		mv /etc/yum.repos.d/45drives.repo /opt/45drives/archives/repos/45drives-$(date +%Y-%m-%d).repo
+		mv -v /etc/yum.repos.d/45drives.repo /opt/45drives/archives/repos/45drives-$(date +%Y-%m-%d).repo | tee -a $CONFIG_LOG
 
-		echo "The obsolete repos have been archived to '/opt/45drives/archives/repos'. Setting up the new repo..." | tee -a $LOGFILE
+		echo "The obsolete repos have been archived to '/opt/45drives/archives/repos'. Setting up the new repo..." | tee -a $CONFIG_LOG
 	fi
 
-	curl -sSL https://repo.45drives.com/lists/45drives.repo -o /etc/yum.repos.d/45drives.repo
+	curl -sSL https://repo.45drives.com/lists/45drives.repo -o /etc/yum.repos.d/45drives.repo | tee -a $CONFIG_LOG
 
 	res=$?
 
 	if [ "$res" -ne "0" ]; then
-		echo "Failed to download the new repo file. Please review the above error and try again." | tee -a $LOGFILE
+		echo "Failed to download the new repo file. Please review the above error and try again." | tee -a $CONFIG_LOG
 		exit 1
 	fi
 
@@ -33,15 +31,15 @@ if [ "$distro" == "rhel" ] || [ "$distro" == "fedora" ]; then
 		el_id=$distro_version
 	fi
 
-	if [[ "$distro_version" != "7" ]] && [[ "$distro_version" != "8" ]]; then
-		read -p "You are on an unsupported version of Enterprise Linux. Would you like to use 'el8' packages? [y/N] " response
+	if [[ "$custom_distro" != "fedora" ]] && [[ "$distro_version" != "7" ]] && [[ "$distro_version" != "8" ]]; then
+		read -p "You are on an unsupported version of Enterprise Linux ('EL${distro_version}'). Would you like to use 'el8' packages? [y/N] " response
 
 		case $response in
 			[yY]|[yY][eE][sS])
-				echo | tee -a $LOGFILE 
+				echo "Using 'el8' packages due to unsupported distro version 'EL${distro_version}'" | tee -a $CONFIG_LOGtee -a $LOGFILE 
 				;;
 			*)
-				echo "Exiting..." | tee -a $LOGFILE
+				echo "Exiting..." | tee -a $CONFIG_LOG
 				exit 1
 				;;
 		esac

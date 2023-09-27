@@ -1,7 +1,12 @@
 #!/bin/bash
 
 yum -y install curl wget gcc-c++ make vim dnf epel-release dnf-plugins-core cockpit | tee -a $LOGFILE
-dnf -y install --skip-broken cockpit-{packagekit,sosreport,storaged,networkmanager,selinux,kdump} | tee -a $LOGFILE
+dnf -y install --skip-broken cockpit-{packagekit,sosreport,storaged,networkmanager,selinux,kdump,navigator,podman,certificates,composer,ostree,sensors} | tee -a $LOGFILE
+wget https://github.com/ocristopfer/cockpit-sensors/releases/latest/download/cockpit-sensors.tar.xz | tee -a $LOGFILE && \
+  tar -vxf cockpit-sensors.tar.xz cockpit-sensors/dist | tee -a $LOGFILE && \
+  mv -v cockpit-sensors/dist /usr/share/cockpit/sensors | tee -a $LOGFILE && \
+  rm -vfr cockpit-sensors | tee -a $LOGFILE && \
+  rm -vf cockpit-sensors.tar.xz | tee -a $LOGFILE
 systemctl enable --now cockpit.socket && systemctl start cockpit.socket | tee -a $LOGFILE
 curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.rpm.sh | sudo bash >> $LOGFILE
 dnf -y install https://pkgs.dyn.su/el9/base/x86_64/raven-release-1.0-4.el9.noarch.rpm | tee -a $LOGFILE
@@ -10,7 +15,7 @@ dnf -y upgrade --refresh  | tee -a $LOGFILE
 curl -sL https://rpm.nodesource.com/setup_current.x | sudo -E bash - >> $LOGFILE
 curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch | tee -a $LOGFILE
 chmod -v 555 /usr/bin/neofetch | tee -a $LOGFILE
-dnf -y install git nodejs zsh speedtest | tee -a $LOGFILE
+dnf -y install git nodejs zsh speedtest google-authenticator | tee -a $LOGFILE
 npm i -g typescript pm2 | tee -a $LOGFILE
 sed -i 's/bash/zsh/g' /etc/default/useradd
 usermod --shell /bin/zsh root

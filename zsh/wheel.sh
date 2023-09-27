@@ -1,4 +1,4 @@
-#!/bin/
+#!/bin/zsh
 
 echo "Preparing to set up OhMyZSH...
 --------------------------
@@ -123,11 +123,25 @@ checking '$USRNAME' ...
 " | tee -a $LOGFILE
 LOCK=0
 while [[ "$LOCK" -eq "0" ]]; do
+esac
     if [[ "$USRNAME" =~ ^([0-9]{0,31}[[:lower:]]{1,32}[0-9]{0,31}){1,32}$ ]]; then
-        username_out="You've chosen a valid username. In the next step we create a user named '${USRNAME}'"
+        case "${USRNAME}}" in
+            [default])
+                USRNAME='default0'
+                username_out="You've chosen '$USRNAME'. I'll create a default user named 'default0'
+                Use this as a template user only!"
+            ;;
+            [cancel]
+                USRNAME='CANCELLED'
+                username_out="You cancelled user creation. Please, create a user manually after setup is completed!
+                Otherwise, you'll get locked out from logging in via SSH!"
+            ;;
+            *)
+                username_out="You've chosen a valid username. In the next step we create a user named '${USRNAME}'"
+            ;;
+        esac
+        
         if [[ "$USRNAME" == "default" ]] | [[ "$USRNAME" == "cancel" ]]; then
-            USRNAME='default0'
-            username_out="You decided to not chose a name. I'll create a default user named '${USRNAME}'"
         fi
         echo $username_out | tee -a $LOGFILE
         LOCK=1
@@ -154,8 +168,8 @@ User '$NEWUSER' successfully created!
 --------------------------
 --------------------------
 " | tee -a $LOGFILE
-echo "Disabling root login via SSH and securing global authentication" | tee -a $LOGFILE
-mv /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
+echo "Disabling root login via SSH and securing global authentication" | tee -a $LOGFILE | tee -a $CONFIG_LOG
+mv -v /etc/ssh/sshd_config /etc/ssh/sshd_config.bak | tee -a $CONFIG_LOG
 touch /etc/ssh/sshd_config
 echo "
 Include /etc/ssh/sshd_config.d/*.conf
@@ -164,29 +178,25 @@ PubkeyAuthentication yes
 AuthorizedKeysFile .ssh/authorized_keys
 PasswordAuthentication yes
 PermitEmptyPasswords no
+KbdInteractiveAuthentication yes
+PermitEmptyPasswords no
 UsePAM yes
 Subsystem sftp  /usr/libexec/openssh/sftp-server
-" | tee -a /etc/ssh/sshd_config
+" | tee -a /etc/ssh/sshd_config | tee -a $CONFIG_LOG
 echo "
 --------------------------
 Creating SSH security policies for $NEWUSER...
 --------------------------
-" | tee -a $LOGFILE
+" | tee -a $LOGFILE | tee -a $CONFIG_LOG
 sshd_conf_file=/etc/ssh/sshd_config.d/$NEWUSER.conf
 touch $sshd_conf_file
 echo "
 Match User $NEWUSER
-    PasswordAuthentication no
-    PermitEmptyPasswords no
-    PubkeyAuthentication yes
-    KbdInteractiveAuthentication yes
     ChallengeResponseAuthentication yes
     AuthenticationMethods publickey,password publickey,keyboard-interactive
-" | tee -a $sshd_conf_file | tee -a $LOGFILE
-echo "
-# MFA
-auth       required     pam_google_authenticator.so nullock
-" | tee -a /etc/pam.d/sshd | tee -a /etc/pam.d/cockpit | tee -a $LOGFILE
+" | tee -a $sshd_conf_file | tee -a $LOGFILE | tee -a $CONFIG_LOG
+sed -i '3i auth       required     pam_google_authenticator.so nullock' /etc/pam.d/{cockpit,sshd}
+sed -i '4i auth       required     pam_permit.so' /etc/pam.d/{cockpit,sshd}
 echo "
 #############################################################
 #############################################################
@@ -206,9 +216,9 @@ Security improved!
 #############################################################
 
 Setting up pm2 daemon for $NEWUSER and for root.....
-" | tee -a $LOGFILE
-env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u $NEWUSER --hp /home/$NEWUSER | tee -a $LOGFILE
-pm2 startup | tee -a $LOGFILE
+" | tee -a $LOGFILE | tee -a $CONFIG_LOG
+env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u $NEWUSER --hp /home/$NEWUSER | tee -a $LOGFILE | tee -a $CONFIG_LOG
+pm2 startup | tee -a $LOGFILE | tee -a $CONFIG_LOG
 echo "
 #############################################################
 #############################################################
