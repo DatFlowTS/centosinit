@@ -230,6 +230,12 @@ Setting up pm2 daemon for $NEWUSER and for root.....
 " | tee -a $LOGFILE | tee -a $CONFIG_LOG
 env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u $NEWUSER --hp /home/$NEWUSER | tee -a $LOGFILE | tee -a $CONFIG_LOG
 pm2 startup | tee -a $LOGFILE | tee -a $CONFIG_LOG
+ausearch -c 'systemd' --raw | audit2allow -M pm2-$NEWUSER
+semodule -i pm2-$NEWUSER.pp
+ausearch -c 'systemd' --raw | audit2allow -M pm2-root
+semodule -i pm2-root.pp
+ausearch -c 'systemd' --raw | audit2allow -M my-systemd
+semodule -i my-systemd.pp
 echo "
 #############################################################
 #############################################################
