@@ -31,9 +31,9 @@
     done
     dnf -y install "${valid_url}"
     dnf -y install https://packages.endpointdev.com/rhel/9/main/x86_64/endpoint-repo.noarch.rpm
-    dnf clean all ; dnf -y upgrade --refresh
+    dnf clean all ; dnf -y upgrade --refresh ; dnf -y update ; dnf clean all
     dnf -y install nodejs --setopt=nodesource-nodejs.module_hotfixes=1
-    dnf -y install --skip-broken cockpit-{packagekit,sosreport,storaged,networkmanager,selinux,kdump,navigator,podman}
+    dnf -y install --skip-broken git cockpit-{packagekit,sosreport,storaged,networkmanager,selinux,kdump,navigator,podman}
     git clone https://github.com/skobyda/cockpit-certificates.git
     cd cockpit-certificates || exit 1
     make install
@@ -42,7 +42,7 @@
     curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.rpm.sh | sudo bash
     curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch
     chmod -v 555 /usr/bin/neofetch
-    dnf -y install git zsh speedtest google-authenticator
+    dnf -y install zsh speedtest google-authenticator
     npm i -g typescript pm2
     sed -i 's/bash/zsh/g' /etc/default/useradd
     usermod --shell /bin/zsh root
