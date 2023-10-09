@@ -1,18 +1,26 @@
 #!/bin/bash
 
-yum -y install curl wget gcc-c++ make vim dnf epel-release dnf-plugins-core cockpit | tee -a $LOGFILE
-dnf -y install --skip-broken cockpit-{packagekit,sosreport,storaged,networkmanager,selinux,kdump,navigator,podman,certificates} | tee -a $LOGFILE
-systemctl enable --now cockpit.socket && systemctl start cockpit.socket | tee -a $LOGFILE
-curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.rpm.sh | sudo bash >> $LOGFILE
-dnf -y install https://pkgs.dyn.su/el9/base/x86_64/raven-release-1.0-4.el9.noarch.rpm | tee -a $LOGFILE
-dnf -y config-manager --set-enabled {raven,raven-extras,crb,epel,extras,plus} | tee -a $LOGFILE
-dnf -y upgrade --refresh  | tee -a $LOGFILE
-curl -sL https://rpm.nodesource.com/setup_current.x | sudo -E bash - >> $LOGFILE
-curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch | tee -a $LOGFILE
-chmod -v 555 /usr/bin/neofetch | tee -a $LOGFILE
-dnf -y install git nodejs zsh speedtest google-authenticator | tee -a $LOGFILE
-npm i -g typescript pm2 | tee -a $LOGFILE
-sed -i 's/bash/zsh/g' /etc/default/useradd
-usermod --shell /bin/zsh root
-cd ~
-sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/zsh/wheel.sh)"
+{
+    yum -y install curl wget gcc-c++ make vim dnf epel-release dnf-plugins-core cockpit
+    cd /etc/pki/rpm-gpg || mkdir -p /etc/pki/rpm-gpg ; cd /etc/pki/rpm_gpg || exit 1
+    wget https://packages.endpointdev.com/endpoint-rpmsign-9.pub
+    rpm --import endpoint-rpmsign-9.pub
+    rpm -qi gpg-pubkey-4d996065 | gpg --show-keys --with-fingerprint
+    cd || exit 1
+    dnf -y install https://packages.endpointdev.com/rhel/9/main/x86_64/endpoint-repo.noarch.rpm
+    dnf -y install --skip-broken cockpit-{packagekit,sosreport,storaged,networkmanager,selinux,kdump,navigator,podman,certificates}
+    systemctl enable --now cockpit.socket && systemctl start cockpit.socket
+    curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.rpm.sh
+    dnf -y install https://pkgs.dyn.su/el9/base/x86_64/raven-release-1.0-4.el9.noarch.rpm
+    dnf -y config-manager --set-enabled {raven,raven-extras,crb,epel,extras,plus}
+    dnf -y upgrade --refresh
+    curl -sL https://rpm.nodesource.com/setup_current.x | sudo -E bash -
+    curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch
+    chmod -v 555 /usr/bin/neofetch
+    dnf -y install git nodejs zsh speedtest google-authenticator
+    npm i -g typescript pm2
+    sed -i 's/bash/zsh/g' /etc/default/useradd
+    usermod --shell /bin/zsh root
+    cd ~ || exit 1
+    sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/zsh/wheel.sh)"
+} | tee -a "${LOGFILE}"
