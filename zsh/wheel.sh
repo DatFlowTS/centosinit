@@ -4,19 +4,13 @@ echo "Preparing to set up OhMyZSH...
 --------------------------
 " | tee -a $LOGFILE
 rm -rfv $HOME/.*ssh* $HOME/.*zsh* /etc/skel/.*ssh* /etc/skel/.*zsh* | tee -a $LOGFILE
-wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | tee -a $LOGFILE
-sed -i 's/RUNZSH=\${RUNZSH:-yes}/RUNZSH=\${RUNZSH:-no}/g' install.sh
-sed -i 's/RUNZSH=yes/RUNZSH=no/g' install.sh
-sed -i 's/CHSH=\${CHSH:-yes}/CHSH=\${CHSH:-no}/g' install.sh
-sed -i 's/CHSH=yes/CHSH=no/g' install.sh
 echo "
 --------------------------
 Running OhMyZSH installer:
 --------------------------
 --------------------------
 " | tee -a $LOGFILE
-sh install.sh | tee -a $LOGFILE
-rm -fv install.sh | tee -a $LOGFILE
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 sed -i 's/robbyrussell/powerlevel10k\/powerlevel10k/g' $HOME/.zshrc
 sed -i 's/\/root/\$HOME/g' $HOME/.zshrc
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
@@ -69,10 +63,11 @@ mkdir -p $HOME/scriptlogs/update
 UPDATE_LOG=$HOME/scriptslogs/update/$(date +%F).log
 touch $UPDATE_LOG
 
-# Optionally you can pass an argument for dnf, e.g. "--nobest"
 rm -rfv /usr/bin/neofetch | tee -a $UPDATE_LOG
 curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch | tee -a $UPDATE_LOG
 chmod -v 555 /usr/bin/neofetch | tee -a $UPDATE_LOG 
+
+# Optionally you can pass an argument for dnf, e.g. "--nobest"
 dnf -y upgrade --refresh $@ | tee -a $UPDATE_LOG
 dnf clean all | tee -a $UPDATE_LOG
 echo "
@@ -230,6 +225,12 @@ Setting up pm2 daemon for $NEWUSER and for root.....
 " | tee -a $LOGFILE | tee -a $CONFIG_LOG
 env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u $NEWUSER --hp /home/$NEWUSER | tee -a $LOGFILE | tee -a $CONFIG_LOG
 pm2 startup | tee -a $LOGFILE | tee -a $CONFIG_LOG
+ausearch -c 'systemd' --raw | audit2allow -M pm2-$NEWUSER
+semodule -i pm2-$NEWUSER.pp
+ausearch -c 'systemd' --raw | audit2allow -M pm2-root
+semodule -i pm2-root.pp
+ausearch -c 'systemd' --raw | audit2allow -M my-systemd
+semodule -i my-systemd.pp
 echo "
 #############################################################
 #############################################################
