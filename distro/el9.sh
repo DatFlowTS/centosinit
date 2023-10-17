@@ -1,11 +1,6 @@
 #!/usr/bin/env bash
 
 {
-    cd /etc/pki/rpm-gpg || mkdir -p /etc/pki/rpm-gpg ; cd /etc/pki/rpm-gpg || exit 1
-    wget https://packages.endpointdev.com/endpoint-rpmsign-9.pub
-    rpm --import endpoint-rpmsign-9.pub
-    rpm -qi gpg-pubkey-4d996065 | gpg --show-keys --with-fingerprint
-    dnf -y install https://packages.endpointdev.com/rhel/9/main/x86_64/endpoint-repo.noarch.rpm
     yum -y install wget curl dnf sqlite --allowerasing
     dnf -y install gcc-c++ make vim epel-release dnf-plugins-core cockpit --allowerasing
     dnf -y install https://pkgs.dyn.su/el9/base/x86_64/raven-release-1.0-4.el9.noarch.rpm
