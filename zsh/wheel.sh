@@ -60,7 +60,7 @@ Setting up 'update' command:
     echo '#\!/bin/zsh
 
 mkdir -p $HOME/scriptlogs/update
-UPDATE_LOG=$HOME/scriptslogs/update/$(date +%F).log
+UPDATE_LOG=$HOME/scriptlogs/update/$(date +%F).log
 touch $UPDATE_LOG
 
 rm -rfv /usr/bin/neofetch | tee -a $UPDATE_LOG
