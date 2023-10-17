@@ -32,7 +32,9 @@
     dnf -y install "${valid_url}"
     dnf -y install https://packages.endpointdev.com/rhel/9/main/x86_64/endpoint-repo.noarch.rpm
     dnf clean all ; dnf -y upgrade --refresh ; dnf -y update ; dnf clean all
+    update-crypto-policies --set DEFAULT:SHA1
     dnf -y install nodejs --setopt=nodesource-nodejs.module_hotfixes=1 --allowerasing
+    update-crypto-policies --set DEFAULT:NO-SHA1
     dnf -y install --skip-broken git cockpit-{packagekit,sosreport,storaged,networkmanager,selinux,kdump,navigator,podman} --allowerasing
     git clone https://github.com/skobyda/cockpit-certificates.git
     cd cockpit-certificates || exit 1
