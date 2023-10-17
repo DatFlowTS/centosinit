@@ -1,8 +1,8 @@
 ﻿#!/bin/bash
 
 {
-    yum -y install wget curl dnf sqlite
-    dnf -y install gcc-c++ make vim epel-release dnf-plugins-core cockpit
+    yum -y install wget curl dnf sqlite --allowerasing
+    dnf -y install gcc-c++ make vim epel-release dnf-plugins-core cockpit --allowerasing
     dnf -y install https://pkgs.dyn.su/el9/base/x86_64/raven-release-1.0-4.el9.noarch.rpm
     dnf -y config-manager --set-enabled {raven,raven-extras,crb,epel,extras,plus}
     cd /etc/pki/rpm-gpg || mkdir -p /etc/pki/rpm-gpg ; cd /etc/pki/rpm_gpg || exit 1
@@ -13,8 +13,8 @@
     sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_nodejs_repo.sh)"
     dnf -y install https://packages.endpointdev.com/rhel/9/main/x86_64/endpoint-repo.noarch.rpm
     dnf clean all ; dnf -y upgrade --refresh ; dnf -y update ; dnf clean all
-    dnf -y install nsolid || dnf -y install nodejs
-    dnf -y install --skip-broken git cockpit-{packagekit,sosreport,storaged,networkmanager,selinux,kdump,navigator,podman}
+    dnf -y install nsolid --allowerasing || dnf -y install nodejs --allowerasing
+    dnf -y install --skip-broken git cockpit-{packagekit,sosreport,storaged,networkmanager,selinux,kdump,navigator,podman} --allowerasing
     git clone https://github.com/skobyda/cockpit-certificates.git
     cd cockpit-certificates || exit 1
     make install
