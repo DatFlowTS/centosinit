@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 
 if [ "$distro" == "rhel" ] || [ "$distro" == "fedora" ]; then
 	items=$(find /etc/yum.repos.d -name '45drives.repo')
