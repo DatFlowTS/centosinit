@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 {
     echo "Preparing to set up OhMyZSH...
@@ -161,7 +161,11 @@ checking '${USRNAME}' ...
             LOCK=0
         fi
     done
-    if [[ $USRNAME != 'CANCELLED' ]]; then
+    notCancelled () {
+        local _u=$1
+        [[ $_u != 'CANCELLED' ]]
+    }
+    if notCancelled "$USRNAME"; then
         export NEWUSER=$USRNAME
         useradd -G wheel "$NEWUSER"
         echo "
@@ -186,58 +190,74 @@ PermitEmptyPasswords no
 UsePAM yes
 Subsystem sftp  /usr/libexec/openssh/sftp-server
     " | tee -a /etc/ssh/sshd_config
+    policy_string="template for upcoming users..."
+    policy_usermatch="<USERTEMPLATE>"
+    policy_order="99"
+    if notCancelled "$USRNAME"; then
+        policy_string="for $NEWUSER..."
+        policy_usermatch="$NEWUSER"
+        policy_order="01"
+    fi
+    policy_filename="${policy_order}-${policy_usermatch}.conf"
     echo "
 --------------------------
-Creating SSH security policies for $NEWUSER...
+Creating SSH security policies $policy_string
 --------------------------
     "
-    sshd_conf_file=/etc/ssh/sshd_config.d/01-$NEWUSER.conf
-    touch $sshd_conf_file
+    sshd_conf_file="/etc/ssh/sshd_config.d/${policy_filename}"
+    touch "$sshd_conf_file"
     echo "
-Match User $NEWUSER
+Match User $policy_usermatch
     ChallengeResponseAuthentication yes
     AuthenticationMethods publickey,password publickey,keyboard-interactive
-    " | tee -a $sshd_conf_file
+    " | tee -a "$sshd_conf_file"
     echo '
 #MFA
 auth       required     pam_google_authenticator.so secret=${HOME}/.ssh/google_authenticator nullok
 auth       required     pam_permit.so
     ' | tee -a /etc/pam.d/sshd | tee -a /etc/pam.d/cockpit
     gauth_command=/usr/local/bin/gauth_enable_totp
-    touch $gauth_command
+    if [[ ! -f "$gauth_command" ]]; then touch $gauth_command; fi
     chmod -v 555 /usr/local/bin/**
     echo '
-#!/bin/zsh
+#!/usr/bin/env bash
 # this is to simplify the creation of google authenticator TOTP
 # it creates the related file into ~/.ssh folder and makes sure
 # that SELinux is not preventing sshd from accessing it
 #
-google-authenticator -t -d -f -r 3 -R 30 -w 3 -s $HOME/.ssh/google_authenticator
-restorecon -Rv $HOME/.ssh/
-    ' | tee -a $gauth_command
+google-authenticator -t -d -f -r 3 -R 30 -w 3 -s "${HOME}/.ssh/google_authenticator"
+restorecon -Rv "${HOME}/.ssh/"
+    ' > "$gauth_command"
     echo "
 #############################################################
 #############################################################
 #############################################################
 
 Security improved!
--   run 'gauth_totp' as $NEWUSER to enable TOTP Authentication.
--   run 'passwd $NEWUSER' to create a password for
-    $NEWUSER (REQUIRED! Yo'll get locked out, if you don't!)
+-   run 'gauth_totp' as any non-root user to enable TOTP
+    Authentication for them
+-   run 'passwd <username>' to create a password for
+    them (REQUIRED! Yo'll get locked out, if you don't!)
 -   for any new user you create, copy $sshd_conf_file with
-    the user's name and an incremented higher number prexfix
-    and replace $NEWUSER inside the file with the new user's name.
+    the user's name and an incremented number prexfix, from
+    01 to 99 and replace '$policy_usermatch' inside the file
+    with the new user's username.
 
 #############################################################
 #############################################################
 #############################################################
-
+    "
+    if notCancelled "$USRNAME"; then
+        echo "
 Setting up pm2 daemon for $NEWUSER and for root.....
-    " | tee -a "$LOGFILE"
-    env "PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2" startup systemd -u "$NEWUSER" --hp "/home/$NEWUSER" | tee -a "$LOGFILE"
-    pm2 startup | tee -a "$LOGFILE"
-    ausearch -c 'systemd' --raw | audit2allow -M "pm2-$NEWUSER"
-    semodule -i "pm2-$NEWUSER.pp"
+        "
+        env "PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2" startup systemd -u "$NEWUSER" --hp "/home/$NEWUSER"
+        ausearch -c 'systemd' --raw | audit2allow -M "pm2-$NEWUSER"
+        semodule -i "pm2-$NEWUSER.pp"
+    else
+        echo "Setting up pm2 daemon for root..."
+    fi
+    pm2 startup
     ausearch -c 'systemd' --raw | audit2allow -M "pm2-root"
     semodule -i "pm2-root.pp"
     ausearch -c 'systemd' --raw | audit2allow -M "my-systemd"
@@ -254,11 +274,13 @@ Now we're checking your connection!
 #############################################################
     "
     speedtest --accept-license --accept-gdpr
-    read -p "Install KDE Plasma Desktop, too? (Y/N, default N) => " -n 1 -r
-    echo ""
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        echo "Installing KDE Plasma Desktop...."
-        sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/kde_plasma_desktop.sh)"
+    if notCancelled "$USRNAME"; then
+        read -p "Install KDE Plasma Desktop, too? (Y/N, default N) => " -n 1 -r
+        echo ""
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            echo "Installing KDE Plasma Desktop...."
+            sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_kde_plasma.sh)"
+        fi
     fi
     update '--best'
     echo '
