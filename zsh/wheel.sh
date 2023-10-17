@@ -64,13 +64,20 @@ Setting up 'update' command:
 --------------------------
     "
     touch update
-    echo '#\!/bin/zsh
+    echo '#\!/usr/bin/env zsh
 
 LOGDIR="${HOME}/scriptlogs/update"
 if [[ ! -d "${LOGDIR}" ]] ; then mkdir -p "${LOGDIR}" ; fi
 UPDATE_LOG="${LOGDIR}/$(date +%F).log"
 touch "$UPDATE_LOG"
 {
+    function get_version_id() {
+        local version_id=$(cat /etc/os-release | grep '\''^VERSION_ID='\'' | head -1 | sed '\''s/VERSION_ID=//'\'' | sed '\''s/"//g'\'' | awk '\''{print $1}'\'' | awk '\''BEGIN {FS="."} {print $1}'\'')
+
+        echo $version_id
+    }
+    distro_version=$(get_version_id)
+    export distro_version
     rm -rfv /usr/bin/neofetch
     curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch
     chmod -v 555 /usr/bin/neofetch
