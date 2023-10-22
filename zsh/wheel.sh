@@ -103,6 +103,7 @@ touch "$UPDATE_LOG"
 Yeah, 'update' command is now available!
     "
     cd ~ || exit 1
+    sudo sed -i '/^Defaults secure_path/ s/$/:\/usr\/local\/bin/' /etc/sudoers
     echo "
 --------------------------
 --------------------------
