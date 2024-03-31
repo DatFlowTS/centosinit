@@ -61,7 +61,7 @@ export distro_version
 
 if [ "$distro" == "rhel" ] || [ "$distro" == "fedora" ]; then
 
-        echo "Detected RHEL-based distribution. Continuing..." | tee -a $LOGFILE
+        echo "Detected RPM distribution. Continuing..." | tee -a $LOGFILE
         
         init_script_url="none"
         case "${custom_distro}" in
@@ -80,13 +80,14 @@ fi
 
 if [ "$distro" == "debian" ]; then
 
-	echo "Detected Debian-based distribution. Continuing..." | tee -a $LOGFILE
+	echo "Detected Debian-based distribution, which is currently not supported yet." | tee -a $LOGFILE
+        exit 1
 
-	lsb_release_cs=$(lsb_release -cs)
-
-	if [[ "$lsb_release_cs" == "" ]]; then
-		echo "Failed to fetch the distribution codename. This is likely because the command, 'lsb_release' is not available. Please install the proper package and try again. (apt install -y lsb-core)" | tee -a $LOGFILE
-		exit 1
-	fi
+#	lsb_release_cs=$(lsb_release -cs)
+#
+#	if [[ "$lsb_release_cs" == "" ]]; then
+#		echo "Failed to fetch the distribution codename. This is likely because the command, 'lsb_release' is not available. Please install the proper package and try again. (apt install -y lsb-core)" | tee -a $LOGFILE
+#		exit 1
+#	fi
 
 fi

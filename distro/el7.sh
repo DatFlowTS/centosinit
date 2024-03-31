@@ -19,5 +19,5 @@
     sed -i 's/bash/zsh/g' /etc/default/useradd
     usermod --shell /bin/zsh root
     cd ~ || exit 1
-    sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/zsh/wheel.sh)"
+    sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/zsh_setup.sh)"
 } | tee -a "$LOGFILE"
