@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+LOG_FILE=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh)" 'setup')
+CONFIG_LOG=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh)" 'config')
+
 {
     yum -y install wget curl dnf sqlite --allowerasing
     dnf -y install gcc-c++ make vim epel-release dnf-plugins-core cockpit --allowerasing
@@ -25,4 +28,4 @@
     usermod --shell /bin/zsh root
     cd ~ || exit 1
     sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/zsh_setup.sh)"
-} | tee -a "$LOGFILE"
+} | tee -a "$LOG_FILE" | tee -a "$CONFIG_LOG"

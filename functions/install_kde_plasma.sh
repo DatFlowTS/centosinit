@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+LOG_FILE=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh)" 'setup')
+CONFIG_LOG=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh)" 'config')
+
 {
     dnf -y install breeze-gtk-common
     dnf -y groupinstall --allowerasing --best --skip-broken "KDE Plasma Workspaces" "base-x"
@@ -29,4 +32,4 @@
         echo '#######################################################'
         echo '#######################################################'
     fi
-} | tee -a "$LOGFILE" | tee -a "$CONFIG_LOG"
+} | tee -a "$LOG_FILE" | tee -a "$CONFIG_LOG"

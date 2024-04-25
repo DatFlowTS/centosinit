@@ -1,18 +1,29 @@
 #!/bin/env bash
 
+LOG_FILE=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh)" 'setup')
+CONFIG_LOG=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh)" 'config')
+
 {
     echo "
 --------------------------
 --------------------------
-Installing powerline fonts
+Installing MesloLGS NF fonts
 --------------------------
     "
-    git clone https://github.com/powerline/fonts.git --depth=1
-    cd fonts || exit 1
-    ./install.sh
-    cd ..
-    rm -rf fonts
-    cp -afv $HOME/.local /etc/skel/
-    touch .hushlogin
-    touch /etc/skel/.hushlogin
-}
+    
+    # Define the target directory
+    TARGET_DIR="/usr/local/share/fonts/m"
+    
+    # Create the target directory if it doesn't exist
+    cd "$TARGET_DIR" || sudo mkdir -vp "$TARGET_DIR" || exit 1
+    
+    # Download the .ttf files
+    sudo wget -P "$TARGET_DIR" https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
+    sudo wget -P "$TARGET_DIR" https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf
+    sudo wget -P "$TARGET_DIR" https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf
+    sudo wget -P "$TARGET_DIR" https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf
+    
+    # Update the font cache
+    sudo fc-cache -f -v
+    
+} | tee -a "$LOG_FILE" | tee -a "$CONFIG_LOG"

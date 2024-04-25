@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+LOG_FILE=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh)" 'setup')
+CONFIG_LOG=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh)" 'config')
+distro_version=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/get_distro_infos.sh)" 'version')
+
 {
     rpm_file=$(ls /etc/yum.repos.d/*endpoint*.repo)
     if [[ -z $rpm_file ]]; then
@@ -14,4 +18,4 @@
     wget "https://packages.endpointdev.com/endpoint-rpmsign-${distro_version}.pub"
     rpm --import "endpoint-rpmsign-${distro_version}.pub"
     dnf -y install "https://packages.endpointdev.com/rhel/${distro_version}/main/x86_64/endpoint-repo.noarch.rpm"
-} | tee -a "$CONFIG_LOG"
+} | tee -a "$LOG_FILE" | tee -a "$CONFIG_LOG"

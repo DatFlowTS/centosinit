@@ -1,12 +1,15 @@
 #!/bin/env bash
 
+LOG_FILE=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh)" 'setup')
+CONFIG_LOG=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh)" 'config')
+
 {
     shutdown -r now
-        echo "
+    echo "
 Please, provide a username ('default' to create
 a user with username 'default0' or 'cancel' to not create any.):
     "
-    read USRNAME
+    read -r USRNAME
     echo "
 --------------------------
 checking '$USRNAME' ...
@@ -38,7 +41,7 @@ checking '$USRNAME' ...
 - at least one alphabetic letter is required
 Try again or type 'cancel' or 'default' to cancel and proceed with setup
             Then a user named 'default0' will be created"
-            read USRNAME
+            read -r USRNAME
             echo "
 --------------------------
 checking '${USRNAME}' ...
@@ -97,6 +100,7 @@ Match User $policy_usermatch
     ChallengeResponseAuthentication yes
     AuthenticationMethods publickey,password publickey,keyboard-interactive
     " | tee -a "$sshd_conf_file"
+    # shellcheck disable=SC2016
     echo '
 #MFA
 auth       required     pam_google_authenticator.so secret=${HOME}/.ssh/google_authenticator nullok
@@ -105,6 +109,7 @@ auth       required     pam_permit.so
     gauth_command=/usr/local/bin/gauth_enable_totp
     if [[ ! -f "$gauth_command" ]]; then touch $gauth_command; fi
     chmod -v 555 /usr/local/bin/**
+    # shellcheck disable=SC2016
     echo '
 #!/usr/bin/env bash
 # this is to simplify the creation of google authenticator TOTP
@@ -148,4 +153,4 @@ Setting up pm2 daemon for $NEWUSER and for root.....
     semodule -i "pm2-root.pp"
     ausearch -c 'systemd' --raw | audit2allow -M "my-systemd"
     semodule -i "my-systemd.pp"
-}
+} | tee -a "$LOG_FILE" | tee -a "$CONFIG_LOG"
