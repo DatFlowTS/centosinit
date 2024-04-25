@@ -7,6 +7,7 @@ CONFIG_LOG=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/mast
     yum -y install wget curl dnf sqlite --allowerasing
     dnf -y install gcc-c++ make vim dnf-plugins-core cockpit --allowerasing
     sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_nodejs.sh)"
+    sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_microsoft_repos.sh)"
     dnf clean all ; dnf -y upgrade --refresh ; dnf -y update
     dnf -y install --skip-broken git cockpit cockpit-{packagekit,sosreport,storaged,networkmanager,selinux,kdump,navigator,podman} --allowerasing
     systemctl enable --now cockpit.socket && systemctl start cockpit.socket

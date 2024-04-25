@@ -14,6 +14,8 @@ distro_version=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/
     # Build correct repo url depending on distribution and version
     if [ "$distro" == "rhel" ] || [ "$distro" == "fedora" ]; then
         
+        echo "Detected RPM distribution. Continuing..."
+        
         prod_repo_file=$(ls /etc/yum.repos.d/packages-microsoft-com-prod*.repo)
         if [[ -z $prod_repo_file ]]; then
             echo "Microsoft Prod repository not installed. Installing now..."
@@ -35,10 +37,6 @@ distro_version=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/
             echo "Microsoft Edge repository was already installed. Removing before installing latest..."
             rm -fv "$edge_repo_file"
         fi
-        
-        YUM_BASE_REPO="https://packages.microsoft.com/yumrepos"
-        
-        echo "Detected RPM distribution. Continuing..."
         
         # Get the matching, or in case of Fedora, latest RHEL repo (using curl and grep)
         case "${custom_distro}" in
@@ -70,8 +68,9 @@ distro_version=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/
         esac
         
         
-        # Construct the complete repository URL for ms prod
+        # Construct repository URLs
         REPO_URL="$BASE_REPO/$DISTRO_URL_PATH/prod.repo"
+        YUM_BASE_REPO="https://packages.microsoft.com/yumrepos"
         
         # Add the repositories
         dnf config-manager --add-repo "$REPO_URL"
