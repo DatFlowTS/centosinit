@@ -11,7 +11,7 @@ CURRENT_USER=$(whoami)
 HOME_DIR=$(eval echo ~"$CURRENT_USER")
 
 # Check if $TMP_DIR exists and creates it if not
-cd "$TMP_DIR" || mkdir -p "$TMP_DIR"
+cd "$TMP_DIR" >/dev/null 2>&1|| mkdir -p "$TMP_DIR"
 if [ "$OLDPWD" != "$TMP_DIR" ]; then cd - || exit 1; fi
 
 # Function to remove Node.js
