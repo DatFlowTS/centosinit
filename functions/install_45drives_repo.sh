@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-LOG_FILE=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh) setup")
-CONFIG_LOG=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh) config")
-distro=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/get_distro_infos.sh) base")
-custom_distro=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/get_distro_infos.sh) custom")
-distro_version=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/get_distro_infos.sh) version")
+LOG_FILE=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh) setup)
+CONFIG_LOG=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh) config)
+distro=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/get_distro_infos.sh) base)
+custom_distro=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/get_distro_infos.sh) custom)
+distro_version=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/get_distro_infos.sh) version)
 
 {
     if [ "$distro" == "rhel" ] || [ "$distro" == "fedora" ]; then

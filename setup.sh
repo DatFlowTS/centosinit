@@ -8,10 +8,10 @@ if [ "$euid" -ne 0 ]; then
 fi
 
 
-LOGFILE=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh) setup")
-distro=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/get_distro_infos.sh) base")
-custom_distro=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/get_distro_infos.sh) custom")
-distro_version=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/get_distro_infos.sh) version")
+LOGFILE=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh) setup)
+distro=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/get_distro_infos.sh) base)
+custom_distro=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/get_distro_infos.sh) custom)
+distro_version=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/get_distro_infos.sh) version)
 
 
 if [ "$distro" == "rhel" ] || [ "$distro" == "fedora" ]; then
