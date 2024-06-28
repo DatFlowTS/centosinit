@@ -14,7 +14,6 @@ CONFIG_LOG=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master
     dnf -y upgrade --refresh
     bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_nodejs.sh)
     bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_endpoint_repo.sh)
-    dnf -y install nodejs -y --setopt=nodesource-nodejs.module_hotfixes=1
     curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch
     chmod -v 555 /usr/bin/neofetch
     dnf -y install git nodejs zsh speedtest google-authenticator

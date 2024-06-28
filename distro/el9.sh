@@ -12,7 +12,6 @@ CONFIG_LOG=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master
     bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_nodejs.sh)
     bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_endpoint_repo.sh)
     dnf clean all ; dnf -y upgrade --refresh ; dnf -y update ; dnf clean all
-    dnf -y install nsolid --allowerasing || dnf -y install nodejs --allowerasing
     dnf -y install --skip-broken git cockpit-{packagekit,sosreport,storaged,networkmanager,selinux,kdump,navigator,podman} --allowerasing
     git clone https://github.com/skobyda/cockpit-certificates.git
     cd cockpit-certificates || exit 1
