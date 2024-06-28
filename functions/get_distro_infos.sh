@@ -39,13 +39,13 @@ Checking Distribution infos.....
     " >&2
     
     case "${1}" in
-        [base])
+        "base")
             get_base_distro
         ;;
-        [custom])
+        "custom")
             get_custom_distro
         ;;
-        [version])
+        "version")
             get_version_id
         ;;
         *)
