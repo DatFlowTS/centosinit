@@ -3,6 +3,9 @@
 LOGFILE=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh) setup)
 
 function get_base_distro() {
+    echo "
+Checking base distribution.....
+    " >&2
     local distro
     # shellcheck disable=SC2002
     distro=$(cat /etc/os-release | grep '^ID_LIKE=' | head -1 | sed 's/ID_LIKE=//' | sed 's/"//g' | awk '{print $1}')
@@ -17,6 +20,9 @@ function get_base_distro() {
 }
 
 function get_custom_distro() {
+    echo "
+Checking custom distribution.....
+    " >&2
     local distro
     # shellcheck disable=SC2002
     distro=$(cat /etc/os-release | grep '^ID=' | head -1 | sed 's/ID=//' | sed 's/"//g' | awk '{print $1}')
@@ -26,6 +32,10 @@ function get_custom_distro() {
 }
 
 function get_version_id() {
+
+    echo "
+Checking distribution release version.....
+    " >&2
     local version_id
     # shellcheck disable=SC2002
     version_id=$(cat /etc/os-release | grep '^VERSION_ID=' | head -1 | sed 's/VERSION_ID=//' | sed 's/"//g' | awk '{print $1}' | awk 'BEGIN {FS="."} {print $1}')
@@ -34,10 +44,6 @@ function get_version_id() {
     echo "$version_id"
 }
 {
-    echo "
-Checking Distribution infos.....
-    " >&2
-    
     case "${1}" in
         "base")
             get_base_distro
