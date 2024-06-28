@@ -12,7 +12,7 @@ function get_base_distro() {
         distro=$(cat /etc/os-release | grep '^ID=' | head -1 | sed 's/ID=//' | sed 's/"//g' | awk '{print $1}')
     fi
     
-    echo "Base distribution:" >&2
+    echo "Base distribution: $distro" >&2
     echo "$distro"
 }
 
@@ -21,7 +21,7 @@ function get_custom_distro() {
     # shellcheck disable=SC2002
     distro=$(cat /etc/os-release | grep '^ID=' | head -1 | sed 's/ID=//' | sed 's/"//g' | awk '{print $1}')
     
-    echo "Custom distribution:" >&2
+    echo "Custom distribution: $distro" >&2
     echo "$distro"
 }
 
@@ -30,7 +30,7 @@ function get_version_id() {
     # shellcheck disable=SC2002
     version_id=$(cat /etc/os-release | grep '^VERSION_ID=' | head -1 | sed 's/VERSION_ID=//' | sed 's/"//g' | awk '{print $1}' | awk 'BEGIN {FS="."} {print $1}')
     
-    echo "Distribution's current version:" >&2
+    echo "Distribution's current version: $version_id" >&2
     echo "$version_id"
 }
 {
