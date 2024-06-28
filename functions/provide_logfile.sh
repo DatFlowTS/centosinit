@@ -10,15 +10,15 @@ UPDATE_LOGS_PATH="$LOGS_PATH/update"
 LOG_FILE=""
 
 case "${1}" in
-    [setup])
+    setup)
         cd "$SETUP_LOGS_PATH" || mkdir -vp "$SETUP_LOGS_PATH" >&2 || exit 1
         LOG_FILE="$SETUP_LOGS_PATH/$(date +%F).log"
     ;;
-    [config])
+    config)
         cd "$CONFIG_LOGS_PATH" || mkdir -vp "$CONFIG_LOGS_PATH" >&2 || exit 1
         LOG_FILE="$CONFIG_LOGS_PATH/$(date +%F).log"
     ;;
-    [update])
+    update)
         cd "$UPDATE_LOGS_PATH" || mkdir -vp "$UPDATE_LOGS_PATH" >&2 || exit 1
         LOG_FILE="$UPDATE_LOGS_PATH/$(date +%F).log"
     ;;
