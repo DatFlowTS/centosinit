@@ -28,11 +28,19 @@ case "${1}" in
     ;;
 esac
 
-touch "$LOG_FILE"
-echo "
-------------------------------------
-Created Logfile: $LOG_FILE
-------------------------------------
-" >&2
+if [ ! -f "$LOG_FILE" ]; then
+    touch "$LOG_FILE"
+    echo "
+    ------------------------------------
+    Created Logfile: $LOG_FILE
+    ------------------------------------
+    " >&2
+else
+    echo "
+    ------------------------------------
+    Using logfile: $LOG_FILE
+    ------------------------------------
+    " >&2
+fi
 
 echo "$LOG_FILE"
