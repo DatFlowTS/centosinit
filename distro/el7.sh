@@ -4,7 +4,7 @@ LOG_FILE=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/f
 CONFIG_LOG=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh) config)
 
 {
-    yum -y install wget curl dnf
+    yum -y install wget curl jq dnf
     dnf -y install gettext make gcc-c++ make vim epel-release dnf-plugins-core cockpit
     bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_45drives_repo.sh)
     dnf -y install cockpit-{packagekit,sosreport,storaged,networkmanager,selinux,kdump,navigator}
@@ -12,7 +12,7 @@ CONFIG_LOG=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master
     curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.rpm.sh | sudo bash
     dnf -y config-manager --set-enabled {powertools,epel,extras,plus}
     dnf -y upgrade --refresh
-    bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_nodejs.sh)
+    bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_nodejs.sh) global
     bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_endpoint_repo.sh)
     curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch
     chmod -v 555 /usr/bin/neofetch

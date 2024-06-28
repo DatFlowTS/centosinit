@@ -4,9 +4,9 @@ LOG_FILE=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/f
 CONFIG_LOG=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh) config)
 
 {
-    yum -y install wget curl dnf sqlite --allowerasing
+    yum -y install wget curl jq dnf sqlite --allowerasing
     dnf -y install gcc-c++ make vim dnf-plugins-core cockpit --allowerasing
-    bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_nodejs.sh)
+    bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_nodejs.sh) global
     bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_microsoft_repos.sh)
     dnf clean all ; dnf -y upgrade --refresh ; dnf -y update
     dnf -y install --skip-broken git cockpit cockpit-{packagekit,sosreport,storaged,networkmanager,selinux,kdump,navigator,podman} --allowerasing

@@ -47,12 +47,19 @@ alias lld='ls -laAdRt'
     # shellcheck disable=SC2016
     echo '
 # extending PATH environment
-    export PATH="$HOME/sbin:$HOME/.local/sbin:$HOME/bin:$HOME/.local/bin:/usr/local/bin:/usr/local/sbin:$PATH"' | tee -a "$HOME/.zshrc"
+export PATH="$HOME/sbin:$HOME/.local/sbin:$HOME/bin:$HOME/.local/bin:/usr/local/bin:/usr/local/sbin:$PATH"
+
+# enabling NVM
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+                                                                                                    
+    ' | tee -a "$HOME/.zshrc"
     rm -rfv "$HOME/.zshrc.pre-oh-my-zsh"
     cp -afv "$HOME"/.*zsh* /etc/skel/
+    cp -afv "$HOME"/.*nvm* /etc/skel/
     mkdir -v "$HOME/.ssh";cd "$HOME/.ssh" || exit 1
     curl https://github.com/datflowts.keys | tee -a authorized_keys
-    echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC1rg+YI9Nwj1nAA0qyQROPeawTbZKYNc59igOaFdHr0sCfq1eXnC7GLXYmJhAu1N8g9xdqbUBtSwaNg54qR9NNH7S25Fuu4fRj6nuDky1Gws0GctvL//rTnKB3xS6MJ0FMn4s3Hg9q34LmQGwSDE1m76V115MyMRJIabzo1x1VOEgHZcxEIEI15hij2GpI5vOWYQrjrC4Y70/zQQmRNsbZDvCyrAvSOFLXi/Q74q+gY/7ic3V95ViFQdtt8pCORN3vX73/04kS3I8/EFALF3SO8MWQ8P9w8TT8Is1OjqaO09L7dpwyPtON5FucR7x4NMP/M3XBjWbvKZSkjLg4nzF9Bs7eqyRrqdMxNGcGOcfnqntY70OgHDRJpOloCT/f0RtUSI1ox8L7yRn5fpQt1830XM1tmWApf9jGlhUt9STBJi4m0p1OmMJmDzgkpunC28Q8wtIluaDQhd3fvtfjK0I4uMvbEzwgXEfldem0sAI0H8dIaXIuJ19a/2ILeYnw31s=" | tee -a authorized_keys
     cp -afv "$HOME"/.*ssh* /etc/skel/
     cd /usr/local/bin || exit 1
     update_script=$(find /usr/local/bin -name 'update')
@@ -86,11 +93,9 @@ UPDATE_LOG=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master
     rm -rfv /usr/bin/neofetch
     curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch
     chmod -v 555 /usr/bin/neofetch
-    # Optionally you can pass an argument for dnf, e.g. "--nobest"
-    old_nodejs=$(nvm current)
-    nvm install node
-    nvm uninstall $old_nodejs
+    bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_nodejs.sh) global
     dnf clean all
+    # Optionally you can pass an argument for dnf, e.g. "--nobest"
     dnf -y upgrade --refresh $@
     dnf clean all
     echo "
