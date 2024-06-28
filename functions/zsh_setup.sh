@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-LOG_FILE=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh)" 'setup')
-CONFIG_LOG=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh)" 'config')
+LOG_FILE=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh) setup")
+CONFIG_LOG=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh) config")
 
 {
     echo "Preparing to set up OhMyZSH...

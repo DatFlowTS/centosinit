@@ -1,6 +1,6 @@
 #!/bin/env bash
 
-LOGFILE=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh)" 'setup')
+LOGFILE=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh) setup")
 
 function get_base_distro() {
     local distro

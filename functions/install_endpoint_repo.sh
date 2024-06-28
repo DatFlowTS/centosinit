@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-LOG_FILE=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh)" 'setup')
-CONFIG_LOG=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh)" 'config')
-distro_version=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/get_distro_infos.sh)" 'version')
+LOG_FILE=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh) setup")
+CONFIG_LOG=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh) config")
+distro_version=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/get_distro_infos.sh) version")
 
 {
     rpm_file=$(ls /etc/yum.repos.d/*endpoint*.repo)
