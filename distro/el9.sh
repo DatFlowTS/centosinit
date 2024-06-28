@@ -9,8 +9,8 @@ CONFIG_LOG=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master
     dnf -y install https://pkgs.dyn.su/el9/base/x86_64/raven-release-1.0-4.el9.noarch.rpm
     dnf -y config-manager --set-enabled {raven,raven-extras,crb,epel,extras,plus}
     cd || exit 1
-    sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_nodejs_repo.sh)"
-    sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_endpoint_repo.sh)"
+    bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_nodejs_repo.sh)
+    bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_endpoint_repo.sh)
     dnf clean all ; dnf -y upgrade --refresh ; dnf -y update ; dnf clean all
     dnf -y install nsolid --allowerasing || dnf -y install nodejs --allowerasing
     dnf -y install --skip-broken git cockpit-{packagekit,sosreport,storaged,networkmanager,selinux,kdump,navigator,podman} --allowerasing
@@ -27,5 +27,5 @@ CONFIG_LOG=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master
     sed -i 's/bash/zsh/g' /etc/default/useradd
     usermod --shell /bin/zsh root
     cd ~ || exit 1
-    sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/zsh_setup.sh)"
+    bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/zsh_setup.sh)
 } | tee -a "$LOG_FILE" | tee -a "$CONFIG_LOG"

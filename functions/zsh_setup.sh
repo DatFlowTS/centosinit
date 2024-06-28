@@ -72,7 +72,7 @@ Setting up 'update' command:
     # shellcheck disable=SC2016
     echo '#\!/usr/bin/env zsh
 
-UPDATE_LOG=$(sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh)" '\''update'\'')
+UPDATE_LOG=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh) update)
 
 
 {
@@ -120,7 +120,7 @@ Operating as root could be risky. It's recommended to
 create other users with sudo privileges and disable root."
 read -p "Do you want to create another user now? (Y/N, default N) => " -n 1 -r
     if [[ $REPLY =~ ^[Yy]$ ]]; then
-        sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/create_user_secure_SSH.sh)"
+        bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/create_user_secure_SSH.sh)
     fi
     echo "
 #############################################################
@@ -139,7 +139,7 @@ Now we're checking your connection!
 #        echo ""
 #        if [[ $REPLY =~ ^[Yy]$ ]]; then
 #            echo "Installing KDE Plasma Desktop...."
-#            sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_kde_plasma.sh)"
+#            bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_kde_plasma.sh)
 #        fi
 #    fi
     update '--best'

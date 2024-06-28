@@ -6,14 +6,14 @@ CONFIG_LOG=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master
 {
     yum -y install wget curl dnf
     dnf -y install gettext make gcc-c++ make vim epel-release dnf-plugins-core cockpit
-    sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_45drives_repo.sh)"
+    bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_45drives_repo.sh)
     dnf -y install cockpit-{packagekit,sosreport,storaged,networkmanager,selinux,kdump,navigator}
     systemctl enable --now cockpit.socket && systemctl start cockpit.socket
     curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.rpm.sh | sudo bash
     dnf -y config-manager --set-enabled {powertools,epel,extras,plus}
     dnf -y upgrade --refresh
-    sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_nodejs_repo.sh)"
-    sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_endpoint_repo.sh)"
+    bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_nodejs_repo.sh)
+    bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_endpoint_repo.sh)
     dnf -y install nodejs -y --setopt=nodesource-nodejs.module_hotfixes=1
     curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch
     chmod -v 555 /usr/bin/neofetch
@@ -22,5 +22,5 @@ CONFIG_LOG=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master
     sed -i 's/bash/zsh/g' /etc/default/useradd
     usermod --shell /bin/zsh root
     cd ~ || exit 1
-    sh -c "$(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/zsh_setup.sh)"
+    bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/zsh_setup.sh)
 } | tee -a "$LOG_FILE" | tee -a "$CONFIG_LOG"
