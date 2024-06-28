@@ -180,6 +180,7 @@ update_node() {
 loop_users() {
     GET_USERS=$(grep -vE '(/s?bin/(nologin|shutdown|sync|halt|false))' /etc/passwd | cut -d: -f1)
     for SOME_USER in $GET_USERS; do
+    SOME_HOME=$(eval echo ~"$SOME_USER")
         if [ "$SOME_USER" = "root" ]; then
             echo "Skipping root..."
         elif [ -d "$HOME_DIR" ] && [ "$HOME_DIR" != "/root" ]; then
@@ -188,7 +189,7 @@ loop_users() {
                 # shellcheck disable=SC2016
                 su "$SOME_USER" - -c '
 NODE_INSTALLED=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_nodejs.sh) preserve)
-touch '"$HOME_DIR"'/tmp/NODE_INSTALLED;echo "$NODE_INSTALLED" > '"$HOME_DIR"'/tmp/NODE_INSTALLED
+touch '"$SOME_HOME"'/tmp/NODE_INSTALLED;echo "$NODE_INSTALLED" > '"$SOME_HOME"'/tmp/NODE_INSTALLED
 bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_nodejs.sh) remove
 exit
                 '
@@ -197,10 +198,10 @@ exit
                 # shellcheck disable=SC2016
                 su "$SOME_USER" - -c '
 bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_nodejs.sh) local 
-NODE_INSTALLED=$(cat '"$HOME_DIR"'/tmp/NODE_INSTALLED)
+NODE_INSTALLED=$(cat '"$SOME_HOME"'/tmp/NODE_INSTALLED)
 if [ "NODE_INSTALLED" = "true" ]; then
     bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_nodejs.sh) restore
-    rm -rf '"$HOME_DIR"'/tmp/NODE_INSTALLED
+    rm -rf '"$SOME_HOME"'/tmp/NODE_INSTALLED
 fi    
 exit
             '
