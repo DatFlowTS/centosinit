@@ -12,7 +12,7 @@ CONFIG_LOG=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master
     curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.rpm.sh | sudo bash
     dnf -y config-manager --set-enabled {powertools,epel,extras,plus}
     dnf -y upgrade --refresh
-    bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_nodejs_repo.sh)
+    bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_nodejs.sh)
     bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_endpoint_repo.sh)
     dnf -y install nodejs -y --setopt=nodesource-nodejs.module_hotfixes=1
     curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch
