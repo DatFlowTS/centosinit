@@ -183,7 +183,7 @@ loop_users() {
     SOME_HOME=$(eval echo ~"$SOME_USER")
         if [ "$SOME_USER" = "root" ]; then
             echo "Skipping root..."
-        elif [ -d "$HOME_DIR" ] && [ "$HOME_DIR" != "/root" ]; then
+        elif [ -d "$SOME_HOME" ] && [ "$SOME_HOME" != "/root" ]; then
             case "${1}" in
             "pre")
                 # shellcheck disable=SC2016
