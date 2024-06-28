@@ -7,6 +7,13 @@ NPM_LIST="$TMP_DIR/npm_packages.list"
 # Get the current user
 CURRENT_USER=$(whoami)
 
+# Get current user's home directory (in case the user's environment was not loaded)
+HOME_DIR=$(eval echo ~"$CURRENT_USER")
+
+# Check if $TMP_DIR exists and creates it if not
+cd "$TMP_DIR" || mkdir -p "$TMP_DIR"
+if [ "$OLDPWD" != "$TMP_DIR" ]; then cd - || exit 1; fi
+
 # Function to remove Node.js
 remove_node() {
     # Check if Node.js is installed via nvm
@@ -68,6 +75,8 @@ preserve_npm_pm2() {
 
     # Check if Node.js is installed
     if type node >/dev/null 2>&1; then
+        cd "$TMP_DIR" || mkdir -p "$TMP_DIR";cd "$TMP_DIR" || exit 1
+        if [ ! -f "$NPM_LIST" ]; then touch "$NPM_LIST"; fi
         NODE_INSTALLED=true
         # Save the list of installed npm packages
         $NPM_CMD >"$NPM_LIST"
@@ -168,11 +177,9 @@ update_node() {
     nvm uninstall "$CURRENT_VERSION"
 }
 
-# Function to loop through users
 loop_users() {
     GET_USERS=$(grep -vE '(/s?bin/(nologin|shutdown|sync|halt|false))' /etc/passwd | cut -d: -f1)
     for SOME_USER in $GET_USERS; do
-        HOME_DIR=$(eval echo ~"$SOME_USER")
         if [ "$SOME_USER" = "root" ]; then
             echo "Skipping root..."
         elif [ -d "$HOME_DIR" ] && [ "$HOME_DIR" != "/root" ]; then
@@ -181,7 +188,7 @@ loop_users() {
                 # shellcheck disable=SC2016
                 su "$SOME_USER" - -c '
 NODE_INSTALLED=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_nodejs.sh) preserve)
-touch ~/tmp/NODE_INSTALLED;echo "$NODE_INSTALLED" > $HOME/tmp/NODE_INSTALLED
+touch '"$HOME_DIR"'/tmp/NODE_INSTALLED;echo "$NODE_INSTALLED" > '"$HOME_DIR"'/tmp/NODE_INSTALLED
 bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_nodejs.sh) remove
 exit
                 '
@@ -190,10 +197,10 @@ exit
                 # shellcheck disable=SC2016
                 su "$SOME_USER" - -c '
 bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_nodejs.sh) local 
-NODE_INSTALLED=$(cat $HOME/tmp/NODE_INSTALLED)
+NODE_INSTALLED=$(cat '"$HOME_DIR"'/tmp/NODE_INSTALLED)
 if [ "NODE_INSTALLED" = "true" ]; then
     bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/install_nodejs.sh) restore
-    rm -rf "$HOME/tmp/NODE_INSTALLED"
+    rm -rf '"$HOME_DIR"'/tmp/NODE_INSTALLED
 fi    
 exit
             '
