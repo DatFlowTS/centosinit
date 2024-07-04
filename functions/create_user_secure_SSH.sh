@@ -4,7 +4,6 @@ LOG_FILE=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/f
 CONFIG_LOG=$(bash <(curl -fsSL https://raw.github.com/datflowts/linuxinit/master/functions/provide_logfile.sh) config)
 
 {
-    shutdown -r now
     echo "
 Please, provide a username ('default' to create
 a user with username 'default0' or 'cancel' to not create any.):
